@@ -6,6 +6,7 @@ import { GoogleGenAI } from '@google/genai';
 import { createServer as createViteServer } from 'vite';
 import { requireAuth, AuthRequest } from './src/middleware/auth.ts';
 import { getOrCreateUser, addWaitlistSubmission, saveFlightScan } from './src/db/users.ts';
+import { initDatabase } from './src/db/init.ts';
 
 dotenv.config();
 
@@ -363,6 +364,14 @@ app.post('/api/flight-scans', requireAuth, async (req: AuthRequest, res) => {
 
 // Setup Vite middleware in dev or static files in production
 async function startServer() {
+  if (process.env.SQL_HOST) {
+    try {
+      await initDatabase();
+    } catch (dbErr) {
+      console.warn('⚠️ Non-fatal: Database auto-init skipped or failed:', dbErr);
+    }
+  }
+
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
       server: { middlewareMode: true },

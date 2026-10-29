@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import * as schema from './schema.ts';
@@ -10,11 +11,24 @@ declare global {
 // Function to create or retrieve the connection pool.
 export const createPool = () => {
   if (!global._postgresPool) {
+    const isRemote =
+      (process.env.SQL_HOST &&
+        !process.env.SQL_HOST.includes('localhost') &&
+        !process.env.SQL_HOST.includes('127.0.0.1')) ||
+      process.env.SQL_HOST?.includes('neon.tech') ||
+      process.env.DATABASE_URL?.includes('sslmode=require');
+
     global._postgresPool = new Pool({
       host: process.env.SQL_HOST,
       user: process.env.SQL_USER,
       password: process.env.SQL_PASSWORD,
       database: process.env.SQL_DB_NAME,
+      port: process.env.SQL_PORT ? parseInt(process.env.SQL_PORT, 10) : 5432,
+      ssl: isRemote
+        ? { rejectUnauthorized: false }
+        : process.env.SQL_SSL === 'true'
+        ? { rejectUnauthorized: false }
+        : undefined,
       max: 10,
       connectionTimeoutMillis: 15000,
     });

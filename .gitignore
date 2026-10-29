@@ -9,3 +9,4 @@ coverage/
 /*.png
 .aistudio/
 *.mp4
+.neon
