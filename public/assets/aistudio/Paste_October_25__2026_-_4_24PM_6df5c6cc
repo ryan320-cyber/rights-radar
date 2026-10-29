@@ -1,0 +1,1017 @@
+# ULTRA MASTER IMPLEMENTATION PROMPT
+## RIGHTS RADAR — GMAIL ANALYSIS TO INTERACTIVE DEMO TRANSFORMATION
+
+### YOUR ROLE
+
+Act as a senior full-stack engineer, React and TypeScript specialist, UX designer, application-security engineer, and QA engineer.
+
+You are working directly inside the existing Rights Radar repository.
+
+Your mission is to transform the current Gmail flight-analysis feature into a polished, fully interactive, **simulated email flight-scanner demo**.
+
+This is an implementation task. You must inspect the repository, modify the real source code, remove the real Gmail integration safely, build the replacement demo, update tests and documentation, and verify the result.
+
+Do not return only a plan, recommendations, mock code, or screenshots.
+
+Do not ask routine clarification questions. Make sensible engineering decisions, preserve existing functionality, and proceed.
+
+---
+
+# 1. THE OBJECTIVE
+
+Rights Radar currently includes a Gmail flight-analysis experience intended to demonstrate how a passenger could discover delayed or cancelled flights from emails.
+
+The existing implementation includes Gmail OAuth, access-token handling, Gmail API requests, flight-email parsing, and claim-generation workflows.
+
+For this version, we no longer want to connect to real Gmail accounts.
+
+Instead, create a realistic, interactive demonstration that allows users to experience the intended workflow without accessing an inbox or transmitting any email information.
+
+The new feature must:
+
+1. Preserve Rights Radar's existing visual identity and quality.
+2. Demonstrate an email-scanning workflow using fictional sample emails.
+3. Let users choose sample emails and simulate scanning.
+4. Extract fictional flight details from predefined demonstration data.
+5. Show a simulated analysis result with transparent limitations.
+6. Allow users to inspect a fictional email and its extracted information.
+7. Allow users to preview a sample claim letter without sending it.
+8. Include convincing loading, empty, error, success, and reset states.
+9. Never imply that fictional information came from Gmail.
+10. Never present simulated results as real flight findings, verified facts, or legally confirmed compensation rights.
+
+**The result should feel like a finished product demonstration, not a broken or disabled Gmail integration.**
+
+---
+
+# 2. NON-NEGOTIABLE RULES
+
+These rules override any conflicting existing behavior.
+
+### Rule A — No real Gmail access
+
+Completely remove the runtime Gmail integration from the active application.
+
+The final demo must not:
+
+- Initiate Google OAuth.
+- Request Gmail permissions.
+- Open a Google sign-in or consent window.
+- Call the Gmail REST API.
+- Search a real inbox.
+- Retrieve email metadata or message contents.
+- Read or retain Gmail access tokens.
+- Refresh Gmail tokens.
+- Create Gmail drafts.
+- Send emails through Gmail.
+- Attempt to connect to Gmail when a simulated request fails.
+- Fall back to a real Gmail connection.
+- Display a real Google account as connected.
+
+### Rule B — Simulation only
+
+Every email, sender, subject, flight number, date, route, delay, cancellation, and passenger detail used by the demo must come from clearly defined fictional demonstration fixtures.
+
+Never populate sample data from:
+
+- A real user's inbox.
+- External email services.
+- Real passenger records.
+- Live airline incident searches.
+- An external AI service.
+- A backend endpoint that claims to have scanned an inbox.
+
+No network request is required for the simulated scanning workflow.
+
+### Rule C — Transparent labeling
+
+The demo must be visibly labelled throughout the experience.
+
+Use a clear label such as:
+
+**DEMO MODE — SIMULATED EMAILS**
+
+Also show a concise disclosure:
+
+"These sample emails and analysis results are fictional. No Gmail account is connected. No real emails are scanned, and no compensation entitlement is verified."
+
+The disclosure must remain visible when users inspect results, switch sample emails, open the claim-letter preview, or navigate between steps.
+
+Do not rely on a disclaimer hidden in the footer or terms page.
+
+### Rule D — No misleading legal claims
+
+The demo may illustrate how Rights Radar could process information, but must not claim to establish real compensation eligibility.
+
+Do not show:
+
+- "You are entitled to €400."
+- "Your compensation is confirmed."
+- "Airline liability verified."
+- "Your flight was found in Gmail."
+- "Claim submitted successfully."
+- "Gmail connected successfully."
+
+Use accurate alternatives such as:
+
+- "Simulated extraction complete."
+- "Example compensation calculation."
+- "Potential eligibility would require verification."
+- "Illustrative amount only."
+- "No real flight or legal assessment was performed."
+- "Sample claim letter generated locally."
+
+### Rule E — Preserve the rest of Rights Radar
+
+Do not remove or damage the application's:
+
+- Homepage.
+- Radar globe.
+- Hero animations.
+- Main navigation.
+- Compensation simulator.
+- Legal information.
+- Waitlist.
+- Existing visual assets that are genuinely used.
+- Other working product features.
+
+Limit the scope of the implementation to the Gmail feature and the code that exists exclusively to support its real integration.
+
+---
+
+# 3. PHASE ONE — AUDIT THE CURRENT GMAIL IMPLEMENTATION
+
+Before editing files, inspect the complete repository.
+
+At minimum, investigate:
+
+- `src/services/gmailService.ts`
+- `src/components/GmailScannerModal.tsx`
+- `src/components/GmailFlightScannerModal.tsx`
+- `src/components/FlightSimulatorModal.tsx`
+- `src/utils/rightsCalculator.ts`
+- `src/components/PrivacyModal.tsx`
+- `src/components/SecurityCenterModal.tsx`
+- `src/components/CookieConsentBanner.tsx`
+- `src/lib/firebase.ts`
+- `server.ts`
+- `package.json`
+- `.env.example`
+- Relevant types, hooks, navigation components, tests, and documentation.
+
+These are starting points. Search the whole repository for additional Gmail-related dependencies.
+
+Search for terms including:
+
+- `GMAIL_SCOPES`
+- `gmail.readonly`
+- `gmail.compose`
+- `gmail.modify`
+- `mail.google.com`
+- `google.accounts.oauth2`
+- `google.accounts.id`
+- `gmailService`
+- `getDemoFlightDetection`
+- `getGmailAccessToken`
+- `listMessages`
+- `users.messages`
+- `gmail/v1`
+- `access_token`
+- `GmailScannerModal`
+- `GmailFlightScannerModal`
+- `createDraft`
+- `gmail.compose`
+- Gmail-related environment variables.
+
+Identify every import, button, route, hook, state variable, token lifecycle function, API call, and dependency associated with real Gmail access.
+
+Create a concise internal inventory before implementing changes.
+
+Do not assume that deleting a single service file removes the integration.
+
+---
+
+# 4. PHASE TWO — DESIGN A SIMULATION-FIRST ARCHITECTURE
+
+Replace the real Gmail service with a deterministic demo service.
+
+Prefer an architecture such as:
+
+- `src/data/demoEmails.ts`
+- `src/services/demoEmailScanner.ts`
+- `src/types/demoEmail.ts`
+- `src/components/GmailScannerModal.tsx`
+- `src/components/DemoEmailCard.tsx`
+- `src/components/DemoScanResults.tsx`
+- `src/components/DemoClaimLetterModal.tsx`
+
+These filenames are suggestions. Reuse existing components when appropriate instead of creating unnecessary duplicates.
+
+## 4.1 Define a typed sample-email model
+
+Create a typed structure for fictional emails.
+
+Each record should contain:
+
+- A stable demonstration ID.
+- A clearly fictional sender name.
+- A fictional sender address using a reserved example domain such as `example.com`.
+- A subject.
+- A fictional message date.
+- A short preview.
+- A fictional email body.
+- A predefined scenario identifier.
+- Fictional flight details.
+- Explicitly known fields.
+- Explicitly unknown fields.
+- A simulation-only analysis status.
+
+For example, use a conceptual model like:
+
+`DemoEmail`
+- `id`
+- `senderName`
+- `senderEmail`
+- `subject`
+- `receivedAt`
+- `preview`
+- `body`
+- `scenarioType`
+- `flightDetails`
+- `simulationStatus`
+
+The implementation must use proper TypeScript types, not `any` or unvalidated arbitrary objects.
+
+Mark the sample dataset as fictional in its source file.
+
+Do not include actual passenger names, real booking references, actual personal email addresses, or private user data.
+
+Use obvious placeholders such as:
+
+- `DEMO-FLIGHT-001`
+- `DEMO-BOOKING-001`
+- `Alex Example`
+- `passenger@example.com`
+
+Make it difficult for future developers to mistake the fixtures for production data.
+
+## 4.2 Provide multiple demonstration scenarios
+
+Create at least five useful sample emails.
+
+### Scenario 1 — Delayed flight
+
+A fictional airline message says a flight has been delayed.
+
+Include an explicitly stated fictional delay duration so the user can see how extraction works.
+
+The interface must explain that this duration comes from the sample email and is not independently verified.
+
+### Scenario 2 — Cancelled flight
+
+A fictional cancellation email.
+
+Include the fictional flight identifier, route, and date.
+
+Do not assume cancellation compensation eligibility merely because the email says the flight was cancelled.
+
+### Scenario 3 — Missing information
+
+A deliberately incomplete fictional email.
+
+For example, it may mention a delay without specifying the final arrival delay or destination.
+
+The simulated extractor must leave missing values unknown.
+
+This scenario is important because it demonstrates that the product should not invent facts.
+
+### Scenario 4 — Unclear or irrelevant email
+
+A fictional airline promotional email or a message mentioning a flight without enough details to identify a disruption.
+
+The result should explain that no sufficiently supported disruption was identified in the sample content.
+
+Do not invent a flight or assign compensation.
+
+### Scenario 5 — Additional-information-required scenario
+
+A fictional disruption message that lacks important facts such as the operating carrier, cancellation notice period, or final arrival delay.
+
+The result must show which facts are missing and what would need to be checked before any real assessment.
+
+Optionally add a sixth scenario involving denied boarding, clearly explaining that the sample does not establish whether the denial was involuntary.
+
+Every scenario must be local fixture data, not a live search result.
+
+---
+
+# 5. PHASE THREE — BUILD A POLISHED INTERACTIVE DEMO
+
+Preserve the existing Rights Radar styling.
+
+Before changing the UI, inspect the current screenshots, component hierarchy, design tokens, and modal behavior.
+
+Retain the dark visual system, green radar accents, typography, glow effects, transitions, and responsive layout.
+
+Do not replace the existing interface with a generic email dashboard.
+
+## 5.1 Replace the Gmail connection call to action
+
+Remove buttons that imply users can connect their real Google account.
+
+Replace them with an action such as:
+
+**Explore Demo Inbox**
+
+Supporting text:
+
+"Explore how Rights Radar could identify flight disruptions in sample emails. No account connection required."
+
+Display a visible `DEMO MODE` label.
+
+Do not show a Google logo beside a button that no longer connects to Google.
+
+Do not imitate Google's OAuth consent screen.
+
+## 5.2 Demo inbox
+
+When the user opens the scanner, show a fictional inbox with:
+
+- A list of sample emails.
+- Sender name and example-domain address.
+- Subject.
+- Sample date.
+- Short message preview.
+- Scenario label.
+- Clear fictional-data disclosure.
+
+Use a polished list or card layout that matches the current application.
+
+Allow the user to select a sample email.
+
+When a user selects an email, display the full fictional message in a preview panel or modal.
+
+Do not automatically start scanning merely because the component mounted.
+
+The user must intentionally initiate the demonstration.
+
+## 5.3 Interactive scanning workflow
+
+Implement a complete local workflow:
+
+1. User opens the demo inbox.
+2. User selects a sample email.
+3. User reviews its fictional contents.
+4. User clicks "Simulate Scan."
+5. The application runs deterministic local analysis.
+6. A short loading animation shows the analysis stages.
+7. The application displays the extracted fictional details.
+8. The application displays unknown fields and missing evidence.
+9. The user can open an illustrative claim-letter preview if appropriate.
+10. The user can reset the demo or choose another sample email.
+
+The loading state may use a short, non-blocking animation or a controlled sequence of UI states.
+
+Keep the implementation compatible with the existing React setup. Do not introduce unnecessary animation dependencies.
+
+Never simulate a successful external network call.
+
+Do not display "Connecting to Gmail," "Searching inbox," or "Contacting Google."
+
+Use labels such as:
+
+- "Reading sample email."
+- "Extracting demonstration fields."
+- "Checking which example details are present."
+- "Simulation complete."
+
+The UI must clearly indicate that these steps run locally on sample data.
+
+## 5.4 Results interface
+
+Show extracted details in a structured, easy-to-read layout.
+
+Suggested sections:
+
+**Sample email**
+
+Display the fictional sender, subject, date, and scenario.
+
+**Extracted information**
+
+Display the sample flight identifier, route, flight date, disruption type, and explicitly stated delay, when available.
+
+**Missing information**
+
+List the important fields not established by the sample email.
+
+**Simulation outcome**
+
+Display an accurate summary such as:
+
+"Rights Radar extracted a possible disruption from this fictional message. This result is a demonstration only."
+
+**Verification requirements**
+
+Explain what additional information would be needed in a real workflow.
+
+**Illustrative compensation**
+
+If a demonstration amount is shown, make it clear that it is an example of a calculation, not a legal assessment.
+
+Do not produce an amount for a scenario that does not provide sufficient inputs for the illustrative calculation.
+
+The interface must never suggest that sample data represents an actual passenger's rights.
+
+## 5.5 Add a demo-only results summary
+
+If the current interface includes metrics or a summary count, make the scope explicit.
+
+Examples:
+
+- "5 sample emails available."
+- "1 simulated disruption detected in this example."
+- "2 fields missing in the selected scenario."
+
+These values must be computed from the local fixtures and the selected scenario.
+
+Do not present these numbers as live network activity or real inbox statistics.
+
+---
+
+# 6. PHASE FOUR — IMPLEMENT DETERMINISTIC LOCAL ANALYSIS
+
+Create a dedicated demo service.
+
+The service must be deterministic: the same fixture and inputs must always produce the same result.
+
+Do not call Gemini, Google Search, Gmail, a backend API, or another external service for this workflow.
+
+## 6.1 Simulated extraction
+
+The simplest safe implementation is to define the extracted fields in the sample fixtures and return them through a typed local analysis function.
+
+For example, a function conceptually similar to:
+
+`analyzeDemoEmail(email: DemoEmail): DemoAnalysisResult`
+
+It should:
+
+- Accept only a known sample email or validated demo object.
+- Return predefined extracted fields.
+- Identify missing information.
+- Include a scenario status.
+- Include an explicit demo-mode flag.
+- Return a list of illustrative verification requirements.
+- Never mutate the source fixtures.
+- Never claim an external source was checked.
+
+Do not use an elaborate regular-expression parser that invents information from fictional text.
+
+A lightweight parser may be included to demonstrate extraction behavior, but it must only return values actually present in the fixture and must have deterministic tests.
+
+Prefer structured fixture data for legal or numerical fields.
+
+## 6.2 Type the result explicitly
+
+Use a clear result model, such as:
+
+`DemoAnalysisResult`
+- `mode: "demo"`
+- `isSimulated: true`
+- `emailId`
+- `scenarioType`
+- `extractedFields`
+- `missingFields`
+- `simulationSummary`
+- `verificationRequirements`
+- `illustrativeAmount`
+- `limitations`
+
+The `illustrativeAmount` must be optional.
+
+Do not use a generic Boolean such as `eligible: true` for a fictional email.
+
+If an illustrative amount is shown, label its basis and limitations.
+
+If the sample does not contain sufficient information, leave the amount absent rather than generating a default value.
+
+## 6.3 Keep demo logic separate from production legal logic
+
+The demo must not call the live compensation engine in a way that produces an authoritative passenger-rights conclusion from fictional inputs.
+
+If reusing a shared distance-band utility is appropriate, separate the mathematical example from legal eligibility and label it clearly.
+
+Do not weaken or modify the actual compensation calculator merely to make a demo scenario produce a desired result.
+
+Do not automatically save demo results to real user records, production inspection history, or a real claim database.
+
+If the interface needs to show a saved-style result, keep it in component state and label it as a simulated record.
+
+---
+
+# 7. PHASE FIVE — CLAIM-LETTER DEMONSTRATION
+
+Preserve the useful idea of previewing a claim letter, but remove all real sending and Gmail draft creation.
+
+Provide a button such as:
+
+**Preview Sample Claim Letter**
+
+The preview should:
+
+- Be generated locally.
+- Be based on the selected fictional scenario.
+- Use fictional passenger and flight information.
+- Include placeholders for information that is unknown.
+- Be editable in the interface if practical.
+- Be labelled "DEMO LETTER — NOT SENT."
+- Explain that real eligibility and legal details require verification.
+
+The interface must never:
+
+- Open Gmail.
+- Create a Gmail draft.
+- Send a message.
+- Claim that a claim has been submitted.
+- Claim that an airline has received the letter.
+- Claim that compensation has been approved.
+
+Use accurate status messages such as:
+
+"Sample letter generated locally."
+
+Add a copy-to-clipboard action if useful.
+
+The copy action must copy only the displayed sample letter. It must not trigger any external request.
+
+Provide a clear way to close the preview and return to the demo.
+
+Test all supported scenario types.
+
+---
+
+# 8. PHASE SIX — REMOVE REAL GMAIL OAUTH AND API CODE
+
+This phase is mandatory.
+
+Search the entire active application and remove real Gmail functionality.
+
+## 8.1 Delete or replace the Gmail service
+
+The existing `src/services/gmailService.ts` contains real Gmail API behavior.
+
+Replace it with a demo-only service or delete it if it is no longer needed.
+
+Do not leave real Gmail methods in the active application behind an obscure feature flag.
+
+Do not preserve unused token acquisition functions.
+
+Do not retain the previous fake-data fallback in the old real Gmail service as an alternative production path.
+
+The new demo service must have no external Gmail dependencies.
+
+## 8.2 Remove OAuth initialization
+
+Remove active initialization of:
+
+- Google OAuth token clients.
+- Google identity services used exclusively for Gmail.
+- Gmail consent flows.
+- Gmail scopes.
+- Gmail access-token state.
+- Token refresh logic.
+- Token revocation logic, unless a different genuine Google feature independently requires it.
+
+Do not remove Google authentication used by unrelated application functionality without verifying its purpose.
+
+If Firebase Authentication uses Google sign-in independently, preserve it if it is genuinely required by another feature.
+
+Only remove OAuth functionality that exists exclusively for real Gmail access.
+
+## 8.3 Remove Gmail API requests
+
+Delete or deactivate the real Gmail API calls from the active runtime.
+
+Check for direct `fetch()` requests to Gmail endpoints and any wrappers that call them indirectly.
+
+Remove:
+
+- Inbox message listing.
+- Message retrieval.
+- Gmail search.
+- Message-body decoding for real messages.
+- Draft creation.
+- Direct sending.
+- Token refresh.
+- Gmail-specific network retries.
+
+Do not leave a hidden real integration that can be activated when a demo fails.
+
+## 8.4 Remove unused dependencies and configuration
+
+Inspect `package.json`, environment files, HTML entry points, and deployment configuration.
+
+Remove Gmail-specific dependencies only if they are not used by other active functionality.
+
+Remove Gmail-only environment variables and OAuth client configuration where they are no longer required.
+
+Update `.env.example` accordingly.
+
+Do not remove credentials or configuration required for Firebase Authentication, other Google APIs, or unrelated features.
+
+Never print secrets in logs or the final report.
+
+## 8.5 Remove backend endpoints that exist exclusively for Gmail
+
+Search `server.ts` and all backend route files for Gmail-specific endpoints.
+
+Remove routes that exist solely to support the deleted Gmail integration.
+
+Preserve the independent flight-verification endpoint if the actual simulator still uses it.
+
+Preserve user synchronization and other unrelated application services.
+
+If a route is shared by another active feature, refactor it safely rather than deleting it blindly.
+
+## 8.6 Remove obsolete Gmail components
+
+Review:
+
+- `GmailScannerModal.tsx`
+- `GmailFlightScannerModal.tsx`
+- Any Gmail-specific hooks.
+- Any Gmail-specific context providers.
+- Any Gmail-specific UI state.
+- Any Gmail-specific navigation labels.
+- Any Gmail-specific error messages.
+
+Reuse the existing component where doing so preserves the design and avoids unnecessary changes.
+
+Remove duplicate or obsolete implementations.
+
+Update every import and reference.
+
+Ensure there are no missing modules or dead navigation links after cleanup.
+
+---
+
+# 9. PHASE SEVEN — UPDATE PRIVACY AND SECURITY COPY
+
+The application must no longer imply that it can scan Gmail.
+
+Review:
+
+- Privacy modal.
+- Security center.
+- Cookie and consent UI.
+- Footer links.
+- Homepage feature descriptions.
+- Gmail scanner modal.
+- Navigation.
+- Any "Connect Gmail" buttons.
+- Any claims about local processing.
+
+Replace inaccurate descriptions with language such as:
+
+"Rights Radar currently provides an interactive demonstration using fictional sample emails. It does not connect to Gmail or access your inbox."
+
+If the demonstration runs entirely in the browser, it is acceptable to say that the demo analysis uses local sample data, after verifying that no requests are made by the demo workflow.
+
+Do not claim that the entire Rights Radar product processes all data locally if unrelated features transmit information to external services.
+
+Keep privacy statements scoped to the actual feature.
+
+Do not display Google OAuth permission information for a feature that no longer requests those permissions.
+
+Do not claim that data has been deleted from Google if the application no longer connects to Google and has no mechanism for performing that action.
+
+Update relevant documentation to distinguish the demo from future potential functionality.
+
+---
+
+# 10. PHASE EIGHT — DESIGN THE INTERACTION STATES
+
+Every state must be implemented intentionally.
+
+### State A: Initial demo
+
+Show the demo title, simulation disclosure, and sample-email list.
+
+Do not display any result as though scanning has already occurred.
+
+### State B: Email selected
+
+Show the full fictional message.
+
+Clearly identify the data as a sample.
+
+### State C: Scanning
+
+Show the local simulation stages.
+
+Do not make external network requests.
+
+### State D: Successful simulation
+
+Show the deterministic extraction result, missing information, and relevant limitations.
+
+Keep the demo disclosure visible.
+
+### State E: Incomplete information
+
+Show which fields are missing and explain that no compensation amount can responsibly be illustrated without the required inputs.
+
+Do not invent data to fill the gaps.
+
+### State F: No relevant disruption
+
+Show that the selected fictional email does not contain enough supported information to demonstrate a disruption.
+
+Do not interpret this as evidence that a real flight was unaffected.
+
+### State G: Claim-letter preview
+
+Show an editable fictional letter with a persistent "DEMO — NOT SENT" label.
+
+### State H: Reset
+
+Allow the user to reset the simulation and choose a different sample email.
+
+Clear transient analysis and editing state.
+
+Do not erase unrelated application data.
+
+### State I: Empty or unavailable sample
+
+If a fixture cannot be loaded or a scenario identifier is invalid, show a clear demo-specific error.
+
+Do not fall back to a real Gmail API request.
+
+### State J: Mobile layout
+
+Ensure the inbox, message preview, result cards, and letter preview remain readable and usable on narrow screens.
+
+Preserve the existing visual identity.
+
+---
+
+# 11. PHASE NINE — ACCESSIBILITY AND VISUAL QUALITY
+
+Keep the existing premium design.
+
+Improve only what is needed to make the interactive demo reliable and accessible.
+
+Requirements:
+
+- Responsive modal sizing.
+- Keyboard navigation.
+- Clear focus indicators.
+- Accessible buttons and labels.
+- Proper dialog semantics.
+- Escape-key closing where appropriate.
+- Focus restoration after closing a modal.
+- Readable text contrast.
+- Appropriate loading announcements for assistive technologies.
+- Reduced-motion support.
+- Clear distinction between primary and secondary actions.
+- No reliance on color alone to communicate simulation status.
+- No unnecessary full-screen loading overlays.
+- No layout shifts when switching between scenarios.
+
+Use existing design tokens and components where possible.
+
+Do not introduce a new design system or rewrite the application styling.
+
+Do not replace the radar visual language with generic email-provider branding.
+
+---
+
+# 12. PHASE TEN — TESTING REQUIREMENTS
+
+Create or update tests for the new demo workflow.
+
+The tests must not require real Gmail credentials, real OAuth, external APIs, or production databases.
+
+## 12.1 Demo-service tests
+
+Test that:
+
+- Every sample email has a stable unique ID.
+- Every sample email is marked as fictional.
+- Every scenario returns deterministic output.
+- Missing fields remain missing.
+- The incomplete scenario does not receive invented values.
+- The irrelevant email does not produce a fabricated disruption.
+- A fictional cancellation does not automatically imply eligibility.
+- No sample generates an unsupported legal conclusion.
+- Invalid scenario IDs produce a safe error.
+- Demo results contain an explicit demo-mode marker.
+- No real email information is required.
+
+## 12.2 UI tests
+
+Test that:
+
+- The demo opens without OAuth.
+- No Google consent window is opened.
+- Selecting a sample email displays the correct message.
+- Scanning displays the loading state.
+- Results match the selected fixture.
+- The demo disclosure remains visible.
+- Switching scenarios clears stale results.
+- Reset clears transient demo state.
+- Claim-letter preview uses the selected sample.
+- The letter is labelled "DEMO — NOT SENT."
+- Copying a letter does not trigger a network request.
+- Mobile-oriented components remain renderable.
+
+## 12.3 Integration-removal tests
+
+Search the active source and configuration for remaining Gmail integration references.
+
+Check that:
+
+- No active Gmail OAuth flow exists.
+- No Gmail API request can be initiated.
+- No Gmail access token is stored or accessed by the demo.
+- No Gmail draft or send operation exists in the demo path.
+- No automatic fallback invokes real Gmail.
+- No obsolete Gmail component import remains.
+- No Gmail-only backend route remains active.
+- No unnecessary Gmail-only environment variable remains.
+- No deleted module is still imported.
+
+Documentation may mention that Gmail is not currently supported, but active code must not contain a working real Gmail integration.
+
+If unrelated application features legitimately use Google services, document the distinction.
+
+## 12.4 Build and type checks
+
+Run the existing project's actual package-manager workflow.
+
+Execute the appropriate:
+
+- Test suite.
+- TypeScript checks.
+- Lint command.
+- Production build.
+
+Fix issues caused by the changes.
+
+Do not weaken TypeScript configuration to silence errors.
+
+Do not delete tests to make the test suite pass.
+
+Do not claim the application was built successfully unless the command completed successfully.
+
+If dependencies cannot be installed or a command cannot run, state the precise limitation.
+
+---
+
+# 13. PHASE ELEVEN — CLEANUP AND DOCUMENTATION
+
+Update the relevant project documentation.
+
+Add a short section describing the current Gmail feature status:
+
+- Real Gmail integration is disabled and removed from the active implementation.
+- The scanner is a local, fictional demonstration.
+- The demonstration does not access email accounts.
+- No email is sent.
+- No compensation entitlement is verified.
+- Future real Gmail support would require a separate implementation, security review, OAuth configuration, and testing.
+
+Update any outdated setup instructions that require Gmail OAuth configuration.
+
+Do not remove configuration required by other features.
+
+Inspect `package.json` after the code cleanup.
+
+Remove unnecessary Gmail-only dependencies, scripts, and environment variables where safe.
+
+Check the repository for:
+
+- Unused imports.
+- Unused files.
+- Broken links.
+- Dead buttons.
+- Orphaned modals.
+- Stale component references.
+- Incorrect privacy wording.
+- Incorrect navigation labels.
+- Duplicate scanner implementations.
+
+Do not delete large visual assets or unrelated features without verifying their use.
+
+---
+
+# 14. REQUIRED ACCEPTANCE CRITERIA
+
+The transformation is complete only when these requirements are met.
+
+## Real Gmail removal
+
+- [ ] No real Gmail OAuth can be initiated by the application.
+- [ ] No Gmail API requests occur from the demo.
+- [ ] No Gmail access token is required or retained by the demo.
+- [ ] No real inbox is read.
+- [ ] No Gmail draft is created.
+- [ ] No email is sent.
+- [ ] Gmail-only backend routes and configuration are removed where appropriate.
+- [ ] Unrelated authentication and Google functionality remains intact.
+
+## Interactive demo
+
+- [ ] The user can open the demo without connecting an account.
+- [ ] At least five fictional sample scenarios are available.
+- [ ] Sample emails are visibly labelled as fictional.
+- [ ] The user can select and inspect emails.
+- [ ] The user can run a deterministic simulated scan.
+- [ ] Results show supported fields and missing information.
+- [ ] No fabricated delay, route, carrier, or compensation values are added.
+- [ ] Claim-letter preview works locally.
+- [ ] Sample letters are labelled "DEMO — NOT SENT."
+- [ ] Reset and scenario switching work correctly.
+- [ ] No network connection is required for the demo workflow.
+
+## Transparency
+
+- [ ] A visible "DEMO MODE — SIMULATED EMAILS" label is present.
+- [ ] The no-Gmail-connection disclosure is visible throughout the flow.
+- [ ] No result implies a real inbox was scanned.
+- [ ] No result implies live flight data was checked.
+- [ ] No result presents a fictional compensation amount as a real entitlement.
+- [ ] No result implies a claim was submitted or approved.
+
+## Design
+
+- [ ] Existing Rights Radar branding is preserved.
+- [ ] Existing homepage and radar globe remain functional.
+- [ ] The scanner matches the established visual language.
+- [ ] Desktop and mobile layouts work.
+- [ ] Accessibility and keyboard interactions are verified.
+
+## Quality
+
+- [ ] All relevant tests are updated.
+- [ ] Demo-service tests pass.
+- [ ] UI tests cover the main workflow.
+- [ ] Active Gmail integration references have been audited.
+- [ ] Type checking and linting are run where available.
+- [ ] The production build is run where possible.
+- [ ] Remaining failures and environmental blockers are documented.
+
+---
+
+# 15. REQUIRED FINAL REPORT
+
+When the implementation is complete, return a concise but evidence-based report containing:
+
+### 1. Summary
+
+Explain how the real Gmail integration was replaced with the simulated demo.
+
+### 2. Files changed
+
+List the important files created, modified, and removed, with a brief explanation of each change.
+
+### 3. Gmail integration removal
+
+List the real OAuth, API, token, draft, and backend functionality that was removed or retained for unrelated reasons.
+
+### 4. Demo functionality
+
+Describe the available sample scenarios, interaction flow, result states, and claim-letter preview.
+
+### 5. Privacy and transparency
+
+Confirm where the demo data comes from and whether the demo performs any external network requests.
+
+### 6. Test results
+
+Report actual commands and results for tests, lint, type checking, and build.
+
+Separate passed checks from failed, skipped, or blocked checks.
+
+### 7. Remaining issues
+
+Identify any remaining defects, external configuration requirements, or unverified behaviors.
+
+Do not claim that the application is production-ready merely because the demonstration works.
+
+---
+
+# FINAL COMMAND
+
+Begin by auditing the current repository. Then implement the complete transformation in the actual source code.
+
+Remove the real Gmail integration, create the local interactive demo, preserve the existing visual identity, update privacy wording and documentation, and run the relevant tests.
+
+Do not stop after generating a plan.
+
+Do not invent successful results.
+
+Do not leave an active real Gmail connection hidden behind the new demo.
+
+**The final experience must be a beautiful, fully interactive Rights Radar demonstration that is honest about what it simulates, never accesses a real inbox, never sends an email, and never presents fictional findings as verified passenger-rights conclusions.**
