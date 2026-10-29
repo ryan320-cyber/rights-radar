@@ -90,3 +90,5 @@ Rights Radar est une application web en français, souveraine et locale d'abord 
 4. `site-notes.md` : Ce rapport détaillé d'architecture, motion design et vérification.
 5. `firebase-blueprint.json`, `security_spec.md`, `firestore.rules`, `firebase-applet-config.json` : Configuration Firestore sécurisée et déployée.
 6. `server.ts` & `server.test.ts` : Serveur Express avec Google Search Grounding (`gemini-3.8-flash`) pour la vérification factuelle des incidents et la veille réglementaire en direct.
+7. `src/components/AdSenseBanner.tsx` : Intégration Google AdSense fluide (`pub-6292650422847467`) avec esthétique obsidian glassmorphism.
+8. Dépôt GitHub : [https://github.com/ryan320-cyber/rights-radar](https://github.com/ryan320-cyber/rights-radar) (branche `main`).
