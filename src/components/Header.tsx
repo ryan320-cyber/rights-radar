@@ -65,54 +65,54 @@ export function Header({ user, isReviewMode, onToggleReviewMode, onOpenGmailScan
         Passer au contenu principal
       </a>
 
-      <header className="sticky top-0 z-40 w-full bg-[#03070D]/85 backdrop-blur-xl border-b border-white/[0.08] transition-colors">
+      <header className="sticky top-0 z-40 w-full apple-chrome transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
-          {/* Brand Wordmark */}
+          {/* Brand Wordmark with Apple Optical Typography */}
           <a
             href="#"
             onClick={(e) => handleNavClick(e, '#')}
-            className="flex items-center gap-3 group cursor-pointer"
+            className="flex items-center gap-3 group cursor-pointer apple-press"
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-[#43DDB0] ring-4 ring-[#43DDB0]/20 shadow-[0_0_12px_rgba(67,221,176,0.6)]" />
-            <span className="font-display italic text-2xl sm:text-3xl tracking-tight text-white group-hover:text-[#43DDB0] transition">
-              rights radar
+            <span className="w-2.5 h-2.5 rounded-full bg-[#30D158] ring-4 ring-[#30D158]/20 shadow-[0_0_12px_rgba(48,209,88,0.7)]" />
+            <span className="font-display font-semibold text-xl sm:text-2xl tracking-tight text-white group-hover:text-[#30D158] transition">
+              Rights Radar
             </span>
           </a>
 
-          {/* Center Navigation Links (Unseen Studio style) */}
-          <nav className="hidden md:flex items-center gap-7 font-body text-xs text-white/70 tracking-wide">
+          {/* Center Navigation Links (Apple SF Pro System Nav) */}
+          <nav className="hidden md:flex items-center gap-8 font-body text-[13px] text-white/70 tracking-tight font-medium">
             <a
               href="#probleme"
               onClick={(e) => handleNavClick(e, '#probleme')}
-              className="hover:text-white transition cursor-pointer"
+              className="hover:text-white transition cursor-pointer apple-press"
             >
               Index
             </a>
             <a
               href="#solution"
               onClick={(e) => handleNavClick(e, '#solution')}
-              className="hover:text-white transition cursor-pointer"
+              className="hover:text-white transition cursor-pointer apple-press"
             >
               Fonctionnement
             </a>
             <a
               href="#engagements"
               onClick={(e) => handleNavClick(e, '#engagements')}
-              className="hover:text-white transition cursor-pointer"
+              className="hover:text-white transition cursor-pointer apple-press"
             >
               Déontologie
             </a>
             <a
               href="#comparaison"
               onClick={(e) => handleNavClick(e, '#comparaison')}
-              className="hover:text-white transition cursor-pointer"
+              className="hover:text-white transition cursor-pointer apple-press"
             >
               Modèle
             </a>
             <a
               href="#inscription"
               onClick={(e) => handleNavClick(e, '#inscription')}
-              className="hover:text-white transition cursor-pointer"
+              className="hover:text-white transition cursor-pointer apple-press"
             >
               Liste d’attente
             </a>
@@ -128,9 +128,9 @@ export function Header({ user, isReviewMode, onToggleReviewMode, onOpenGmailScan
                 onOpenGmailScanner();
               }}
               title="Scanner mes confirmations de vol dans Gmail"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs font-code text-white transition active:scale-95"
+              className="apple-press inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs font-body text-white transition active:scale-95"
             >
-              <Mail className="w-3.5 h-3.5 text-[#43DDB0]" />
+              <Mail className="w-3.5 h-3.5 text-[#30D158]" />
               <span className="hidden sm:inline font-medium">Scanner Gmail</span>
             </button>
 
@@ -142,10 +142,10 @@ export function Header({ user, isReviewMode, onToggleReviewMode, onOpenGmailScan
                 onOpenSecurity();
               }}
               title="Centre de sécurité & isolation mémoire"
-              className="p-2 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/15 text-white/80 hover:text-white transition"
+              className="apple-press p-2 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/15 text-white/80 hover:text-white transition"
               aria-label="Centre de sécurité avancée"
             >
-              <ShieldCheck className="w-4 h-4 text-[#43DDB0]" />
+              <ShieldCheck className="w-4 h-4 text-[#30D158]" />
             </button>
 
             {/* Review mode indicator */}

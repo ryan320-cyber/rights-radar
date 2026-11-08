@@ -12,7 +12,7 @@ const timelineData: TimelineItem[] = [
     id: 't1',
     date: 'Horizon 2026',
     title: 'Modernisation du cadre européen',
-    description: 'Les institutions européennes examinent la révision du règlement (CE) n° 261/2004 afin de clarifier les seuils d’indemnisation et les obligations d’assistance.',
+    description: 'Les institutions européennes examinent la révision du règlement (CE) n° 261/2004 afin de clarifier les seuils d’indemnisation et les obligations d’assistance des compagnies aériennes.',
     source: 'Conseil de l’Union européenne & Parlement européen',
     sourceType: '[organisme public]',
     isUnverified: true,
@@ -21,7 +21,7 @@ const timelineData: TimelineItem[] = [
     id: 't2',
     date: '2025 - 2026',
     title: 'IA légère et locale (Local-First)',
-    description: 'Les navigateurs modernes exécutent de puissants modèles d’analyse de documents en mémoire vive sans transmettre les confirmations à des serveurs tiers.',
+    description: 'Les navigateurs modernes exécutent de puissants modèles d’analyse de documents en mémoire vive sans transmettre les confirmations de vol à des serveurs distants.',
     source: 'Recherches en intelligence artificielle embarquée WebAssembly',
     sourceType: '[académique]',
     isUnverified: false,
@@ -30,7 +30,7 @@ const timelineData: TimelineItem[] = [
     id: 't3',
     date: '2025 - 2026',
     title: 'Équité numérique & transparence',
-    description: 'Encadrement strict des interfaces trompeuses (dark patterns), des abonnements dissimulés et des commissions non annoncées dès l’inscription.',
+    description: 'Encadrement strict des interfaces trompeuses (dark patterns), des abonnements dissimulés et des commissions imprévues prélevées sur les indemnisations.',
     source: 'Commission européenne — Digital Fairness Act',
     sourceType: '[organisme public]',
     isUnverified: false,
@@ -51,7 +51,7 @@ export const WhyNowSection: React.FC<WhyNowSectionProps> = ({ isReviewMode }) =>
         setLivePulse(data);
       }
     } catch {
-      // Fallback
+      // Handled silently
     } finally {
       setIsLoadingPulse(false);
     }
@@ -60,96 +60,95 @@ export const WhyNowSection: React.FC<WhyNowSectionProps> = ({ isReviewMode }) =>
   return (
     <section
       id="pourquoi-maintenant"
-      className="py-24 bg-[#020408] text-[#F4F4F6] border-t border-white/[0.08] relative overflow-hidden"
+      className="py-28 bg-[#000000] text-[#F5F5F7] border-t border-white/[0.08] relative overflow-hidden"
     >
       {/* Background ambient lighting */}
       <div
         aria-hidden="true"
-        className="absolute top-1/3 right-0 w-[550px] h-[500px] bg-[#00F0FF]/5 blur-[160px] pointer-events-none -z-0"
+        className="absolute top-1/3 right-0 w-[550px] h-[550px] bg-[#64D2FF]/5 blur-[160px] pointer-events-none -z-0"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <div className="max-w-3xl">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#43DDB0]" />
-              <span className="font-mono text-xs uppercase tracking-widest text-[#43DDB0]">
-                02 — Contexte & Veille Réglementaire
-              </span>
+        {/* Section Header with Apple Optical Typography */}
+        <div className="max-w-3xl mb-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.06] border border-white/10 text-xs font-mono font-medium text-[#64D2FF] tracking-wider mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#64D2FF]" />
+            <span>02 — CONTEXTE & OPPORTUNITÉ</span>
+          </div>
+          <h2 className="font-display font-semibold text-3xl sm:text-5xl lg:text-6xl leading-[1.08] tracking-[-0.03em] text-white mb-4">
+            Pourquoi lancer ce radar <span className="text-[#64D2FF]">maintenant ?</span>
+          </h2>
+          <p className="font-body text-base sm:text-lg text-[#86868B] leading-relaxed max-w-2xl font-normal">
+            La convergence de la révision réglementaire européenne et des technologies WebAssembly permet désormais d'offrir une solution indépendante, instantanée et 100% locale.
+          </p>
+        </div>
+
+        {/* Live Regulatory Pulse Banner (Apple Translucent Capsule) */}
+        <div className="mb-10 p-5 sm:p-6 rounded-3xl apple-card flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-[#64D2FF]/20 shadow-[0_4px_24px_rgba(100,210,255,0.08)]">
+          <div className="flex items-start sm:items-center gap-3.5">
+            <div className="w-10 h-10 rounded-2xl bg-[#64D2FF]/15 text-[#64D2FF] flex items-center justify-center shrink-0">
+              <Radio className="w-5 h-5 text-[#64D2FF] animate-pulse" />
             </div>
-            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-white mb-4">
-              Pourquoi maintenant ? <span className="italic text-[#43DDB0]">Trois bascules majeures.</span>
-            </h2>
-            <p className="font-sans text-base sm:text-lg text-[#94A3B8] leading-relaxed font-light">
-              L'évolution du droit aérien européen, l'avènement des modèles légers fonctionnant en local et le rejet des commissions abusives ouvrent la voie à une nouvelle génération d'outils.
-            </p>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-body text-xs font-semibold uppercase tracking-wider text-[#64D2FF]">
+                  Veille Règlementaire Directe (CE 261/2004)
+                </span>
+                <span className="font-mono text-[10px] text-white/40">Gemini Grounding</span>
+              </div>
+              <p className="font-body text-xs sm:text-sm text-white/80 mt-1 max-w-2xl">
+                {livePulse?.summary
+                  ? livePulse.summary
+                  : 'Surveillance active des révisions CE 261 et jurisprudences de la Cour de Justice de l’Union Européenne (CJUE).'}
+              </p>
+            </div>
           </div>
 
-          {/* Live Regulatory Pulse Trigger */}
           <button
             type="button"
             onClick={fetchLivePulse}
             disabled={isLoadingPulse}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs font-mono text-white/80 hover:text-white transition active:scale-95 w-fit shrink-0"
+            className="apple-press inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-white/15 text-xs font-body font-medium text-white transition active:scale-[0.97] shrink-0"
           >
-            <RefreshCw className={`w-3.5 h-3.5 text-[#43DDB0] ${isLoadingPulse ? 'animate-spin' : ''}`} />
-            <span>Actualiser la veille (Search Grounding)</span>
+            <RefreshCw className={`w-3.5 h-3.5 ${isLoadingPulse ? 'animate-spin' : ''}`} />
+            <span>{isLoadingPulse ? 'Interrogation...' : 'Actualiser le statut'}</span>
           </button>
         </div>
 
-        {/* Live Grounding Pulse Banner (if loaded) */}
-        {livePulse?.summary && (
-          <div className="mb-8 p-5 rounded-2xl bg-[#43DDB0]/5 border border-[#43DDB0]/30 text-xs font-mono text-white/90 flex items-start gap-3">
-            <Radio className="w-4 h-4 text-[#43DDB0] shrink-0 mt-0.5 animate-pulse" />
-            <div className="space-y-1">
-              <span className="text-[#43DDB0] font-bold uppercase tracking-wider block">
-                Signal en direct (Vérifié Google Search) :
-              </span>
-              <p className="text-[#F4F4F6] font-sans text-sm font-light leading-relaxed">
-                {livePulse.summary}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* 3 Column Timeline Cards with Lusion Glass Aesthetic */}
+        {/* Apple 3-Column Bento Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {timelineData.map((item, idx) => (
+          {timelineData.map((item) => (
             <div
               key={item.id}
-              className="glass-panel glass-panel-hover p-6 sm:p-8 rounded-2xl flex flex-col justify-between group"
+              className="apple-card p-6 sm:p-8 rounded-3xl flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-5">
-                  <span className="font-mono text-xs uppercase tracking-wider text-[#43DDB0]">
-                    0{idx + 1} // {item.date}
+                <div className="flex items-center justify-between mb-4">
+                  <span className="font-mono text-xs font-semibold text-[#64D2FF] bg-[#64D2FF]/10 px-2.5 py-1 rounded-full border border-[#64D2FF]/20">
+                    {item.date}
                   </span>
-                  <span className="text-[10px] font-mono text-white/40 uppercase bg-white/[0.04] px-2 py-0.5 rounded">
-                    {item.sourceType}
-                  </span>
+                  {isReviewMode && item.isUnverified && (
+                    <span className="review-tag">
+                      À VÉRIFIER
+                    </span>
+                  )}
                 </div>
 
-                <h3 className="font-serif text-2xl text-white mb-3 group-hover:text-[#43DDB0] transition">
+                <h3 className="font-display font-semibold text-xl text-white mb-2 tracking-tight">
                   {item.title}
                 </h3>
-
-                <p className="font-sans text-sm text-[#94A3B8] leading-relaxed font-light mb-6">
+                <p className="font-body text-sm text-[#86868B] leading-relaxed mb-6 font-normal">
                   {item.description}
                 </p>
-
-                {item.isUnverified && isReviewMode && (
-                  <div className="mb-4">
-                    <span className="review-tag" data-review="true">
-                      [À VÉRIFIER : accord provisoire annoncé en juin 2026]
-                    </span>
-                  </div>
-                )}
               </div>
 
-              <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-white/40">
-                <span className="truncate max-w-[200px]">{item.source}</span>
-                <Scale className="w-3.5 h-3.5 text-[#43DDB0]/60 shrink-0" />
+              <div className="pt-4 border-t border-white/[0.08] flex items-center justify-between text-xs font-body text-white/40">
+                <span className="truncate max-w-[200px]" title={item.source}>
+                  {item.source}
+                </span>
+                <span className="font-mono text-[10px] text-[#64D2FF] bg-[#64D2FF]/10 px-1.5 py-0.5 rounded">
+                  {item.sourceType}
+                </span>
               </div>
             </div>
           ))}

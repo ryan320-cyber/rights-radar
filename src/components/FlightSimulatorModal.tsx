@@ -10,6 +10,7 @@ import {
 } from '../utils/rightsCalculator.ts';
 import { SearchGroundingBadges, GroundingSource } from './SearchGroundingBadges.tsx';
 import { X, Plane, Copy, Check, Save, Trash2, ShieldCheck, Search, Loader2, Sparkles } from 'lucide-react';
+import { soundEngine } from '../utils/soundEngine.ts';
 
 interface FlightSimulatorModalProps {
   isOpen: boolean;
@@ -110,6 +111,7 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
   }, [user, isOpen, saveSuccess]);
 
   const handleVerifyFlightSearch = async () => {
+    soundEngine.playPing();
     setIsSearchingLive(true);
     setSearchError(null);
     setLiveSummary(null);
@@ -144,6 +146,7 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
   };
 
   const handleCopyLetter = async () => {
+    soundEngine.playClick();
     try {
       await navigator.clipboard.writeText(letterText);
       setCopied(true);
@@ -158,6 +161,7 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
       alert('Veuillez vous connecter avec Google pour synchroniser vos analyses sur votre profil.');
       return;
     }
+    soundEngine.playClick();
     setIsSaving(true);
     const path = 'inspections';
     try {
@@ -182,7 +186,7 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
       try {
         handleFirestoreError(err, OperationType.CREATE, path);
       } catch (e) {
-        alert('Erreur lors de l’enregistrement. Veuillez vérifier votre connexion.');
+        alert("Erreur lors de l'enregistrement. Veuillez vérifier votre connexion.");
       }
     } finally {
       setIsSaving(false);
@@ -190,6 +194,7 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
   };
 
   const handleDeleteSaved = async (id: string) => {
+    soundEngine.playClick();
     const path = 'inspections';
     try {
       await deleteDoc(doc(db, path, id));
@@ -200,6 +205,7 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
   };
 
   const loadPreset = (preset: 'short' | 'medium' | 'long') => {
+    soundEngine.playTick();
     setLiveSummary(null);
     setGroundingSources([]);
     if (preset === 'short') {
@@ -264,162 +270,166 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Simulateur d’estimation de vol"
-      className="fixed inset-0 z-50 bg-[#101722]/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+      aria-label="Simulateur d'estimation de vol"
+      className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xl flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
     >
-      <div className="bg-[#151F2E] border border-white/10 text-[#F6F5F1] rounded-3xl max-w-4xl w-full p-6 sm:p-8 shadow-2xl my-auto max-h-[92vh] overflow-y-auto">
+      <div className="apple-card border border-white/10 text-[#F5F5F7] rounded-[28px] max-w-4xl w-full p-6 sm:p-8 shadow-2xl my-auto max-h-[92vh] overflow-y-auto relative">
+        {/* Apple Sheet Grab Handle */}
+        <div className="apple-sheet-handle mx-auto mb-4" />
+
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
-          <div className="flex items-center gap-3">
-            <span className="w-9 h-9 rounded-full bg-[#43DDB0]/20 text-[#43DDB0] flex items-center justify-center">
+        <div className="flex items-center justify-between pb-5 border-b border-white/10 mb-6">
+          <div className="flex items-center gap-3.5">
+            <span className="w-10 h-10 rounded-2xl bg-white/10 border border-white/10 text-[#43DDB0] flex items-center justify-center">
               <Plane className="w-5 h-5" />
             </span>
             <div>
-              <h2 className="font-display text-2xl sm:text-3xl text-[#F6F5F1]">
-                Simulateur de vol & Préparation de courrier
+              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white">
+                Simulateur de vol & Préparation de dossier
               </h2>
-              <span className="font-code text-xs text-white/50">
+              <span className="text-xs text-white/50 font-normal">
                 Calculateur CE 261/2004 · Analyse de portée géographique
               </span>
             </div>
           </div>
           <button
             type="button"
-            onClick={onClose}
+            onClick={() => {
+              soundEngine.playClick();
+              onClose();
+            }}
             aria-label="Fermer la simulation"
-            className="p-2 rounded-full hover:bg-white/10 text-white/60 hover:text-white transition cursor-pointer"
+            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white flex items-center justify-center apple-press transition cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Presets */}
-        <div className="flex flex-wrap items-center gap-2 mb-6">
-          <span className="text-xs font-code text-white/60 mr-2">Exemples vérifiés :</span>
-          <button
-            type="button"
-            onClick={() => loadPreset('short')}
-            className="px-3 py-1 rounded-full bg-white/5 hover:bg-white/15 text-xs font-code text-white/80 border border-white/10 cursor-pointer"
-          >
-            Court-courrier (&le; 1 500 km · 250 €)
-          </button>
-          <button
-            type="button"
-            onClick={() => loadPreset('medium')}
-            className="px-3 py-1 rounded-full bg-white/5 hover:bg-white/15 text-xs font-code text-white/80 border border-white/10 cursor-pointer"
-          >
-            Moyen-courrier intra-UE (&gt; 1 500 km · 400 €)
-          </button>
-          <button
-            type="button"
-            onClick={() => loadPreset('long')}
-            className="px-3 py-1 rounded-full bg-white/5 hover:bg-white/15 text-xs font-code text-white/80 border border-white/10 cursor-pointer"
-          >
-            Long-courrier (&gt; 3 500 km · 600 €)
-          </button>
+        {/* Presets Segmented Bar */}
+        <div className="mb-6">
+          <span className="text-xs text-white/60 block mb-2 font-medium">Exemples types :</span>
+          <div className="apple-segmented-group p-1 flex flex-wrap gap-1">
+            <button
+              type="button"
+              onClick={() => loadPreset('short')}
+              className="apple-segmented-item text-xs apple-press cursor-pointer flex-1 min-w-[140px]"
+            >
+              Court-courrier (≤ 1 500 km · 250 €)
+            </button>
+            <button
+              type="button"
+              onClick={() => loadPreset('medium')}
+              className="apple-segmented-item text-xs apple-press cursor-pointer flex-1 min-w-[140px]"
+            >
+              Moyen-courrier intra-UE (&gt; 1 500 km · 400 €)
+            </button>
+            <button
+              type="button"
+              onClick={() => loadPreset('long')}
+              className="apple-segmented-item text-xs apple-press cursor-pointer flex-1 min-w-[140px]"
+            >
+              Long-courrier (&gt; 3 500 km · 600 €)
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-6">
           {/* Flight Input Controls */}
           <div className="lg:col-span-6 space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-code text-white/70 mb-1">Vol</label>
+                <label className="block text-xs text-white/70 mb-1 font-medium">Vol</label>
                 <input
                   type="text"
                   value={flightCode}
                   onChange={(e) => setFlightCode(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#0A0F17] border border-white/15 text-xs font-code"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.06] border border-white/10 text-xs font-mono text-white focus:outline-none focus:border-white/30"
                 />
               </div>
               <div>
-                <label className="block text-xs font-code text-white/70 mb-1">Date du vol</label>
+                <label className="block text-xs text-white/70 mb-1 font-medium">Date du vol</label>
                 <input
                   type="date"
                   value={flightDate}
                   onChange={(e) => setFlightDate(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#0A0F17] border border-white/15 text-xs font-code"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.06] border border-white/10 text-xs font-mono text-white focus:outline-none focus:border-white/30"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-code text-white/70 mb-1">Départ (ex: CDG)</label>
+                <label className="block text-xs text-white/70 mb-1 font-medium">Départ (ex: CDG)</label>
                 <input
                   type="text"
                   value={departure}
                   onChange={(e) => setDeparture(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#0A0F17] border border-white/15 text-xs font-code"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.06] border border-white/10 text-xs font-mono text-white focus:outline-none focus:border-white/30"
                 />
               </div>
               <div>
-                <label className="block text-xs font-code text-white/70 mb-1">Arrivée (ex: JFK)</label>
+                <label className="block text-xs text-white/70 mb-1 font-medium">Arrivée (ex: JFK)</label>
                 <input
                   type="text"
                   value={arrival}
                   onChange={(e) => setArrival(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#0A0F17] border border-white/15 text-xs font-code"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.06] border border-white/10 text-xs font-mono text-white focus:outline-none focus:border-white/30"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-code text-white/70 mb-1">Pays départ (ISO)</label>
+                <label className="block text-xs text-white/70 mb-1 font-medium">Pays départ (ISO)</label>
                 <input
                   type="text"
                   value={departureCountry}
                   onChange={(e) => setDepartureCountry(e.target.value.toUpperCase())}
                   placeholder="FR, US, GB"
-                  className="w-full px-3 py-2 rounded-lg bg-[#0A0F17] border border-white/15 text-xs font-code"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.06] border border-white/10 text-xs font-mono text-white focus:outline-none focus:border-white/30"
                 />
               </div>
               <div>
-                <label className="block text-xs font-code text-white/70 mb-1">Pays arrivée (ISO)</label>
+                <label className="block text-xs text-white/70 mb-1 font-medium">Pays arrivée (ISO)</label>
                 <input
                   type="text"
                   value={arrivalCountry}
                   onChange={(e) => setArrivalCountry(e.target.value.toUpperCase())}
                   placeholder="FR, US, GB"
-                  className="w-full px-3 py-2 rounded-lg bg-[#0A0F17] border border-white/15 text-xs font-code"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.06] border border-white/10 text-xs font-mono text-white focus:outline-none focus:border-white/30"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-code text-white/70 mb-1">
-                  Type de perturbation
-                </label>
+                <label className="block text-xs text-white/70 mb-1 font-medium">Type d'incident</label>
                 <select
                   value={disruptionType}
                   onChange={(e) => setDisruptionType(e.target.value as DisruptionType)}
-                  className="w-full px-3 py-2 rounded-lg bg-[#0A0F17] border border-white/15 text-xs font-code"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.06] border border-white/10 text-xs text-white focus:outline-none focus:border-white/30"
                 >
-                  <option value="delay">Retard à l'arrivée</option>
-                  <option value="cancellation">Vol annulé</option>
-                  <option value="denied_boarding">Surbooking / Embarquement refusé</option>
+                  <option value="delay" className="bg-[#1C1C1E] text-white">Retard à l'arrivée</option>
+                  <option value="cancellation" className="bg-[#1C1C1E] text-white">Vol annulé</option>
+                  <option value="denied_boarding" className="bg-[#1C1C1E] text-white">Surbooking / Refus d'embarquement</option>
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-code text-white/70 mb-1">
-                  Licence compagnie UE/UK ?
-                </label>
+                <label className="block text-xs text-white/70 mb-1 font-medium">Compagnie UE/UK ?</label>
                 <select
                   value={isEUOrUKCarrier ? 'yes' : 'no'}
                   onChange={(e) => setIsEUOrUKCarrier(e.target.value === 'yes')}
-                  className="w-full px-3 py-2 rounded-lg bg-[#0A0F17] border border-white/15 text-xs font-code"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white/[0.06] border border-white/10 text-xs text-white focus:outline-none focus:border-white/30"
                 >
-                  <option value="yes">Oui (Air France, Lufthansa, BA...)</option>
-                  <option value="no">Non (Delta, Emirates, United...)</option>
+                  <option value="yes" className="bg-[#1C1C1E] text-white">Oui (Air France, Lufthansa...)</option>
+                  <option value="no" className="bg-[#1C1C1E] text-white">Non (Delta, Emirates...)</option>
                 </select>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-code text-white/70 mb-1">
+                <label className="block text-xs text-white/70 mb-1 font-medium">
                   Distance ({Math.round(distanceKm)} km)
                 </label>
                 <input
@@ -429,12 +439,12 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
                   step="100"
                   value={distanceKm}
                   onChange={(e) => setDistanceKm(Number(e.target.value))}
-                  className="w-full accent-[#43DDB0]"
+                  className="w-full accent-white"
                 />
               </div>
               <div>
-                <label className="block text-xs font-code text-white/70 mb-1">
-                  Retard à l'arrivée ({delayHours} h)
+                <label className="block text-xs text-white/70 mb-1 font-medium">
+                  Retard ({delayHours} h)
                 </label>
                 <input
                   type="range"
@@ -443,28 +453,28 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
                   step="0.5"
                   value={delayHours}
                   onChange={(e) => setDelayHours(Number(e.target.value))}
-                  className="w-full accent-[#E7A63A]"
+                  className="w-full accent-[#43DDB0]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-code text-white/70 mb-1">Compagnie aérienne</label>
+              <label className="block text-xs text-white/70 mb-1 font-medium">Compagnie aérienne</label>
               <input
                 type="text"
                 value={airlineName}
                 onChange={(e) => setAirlineName(e.target.value)}
-                className="w-full px-3 py-2 rounded-lg bg-[#0A0F17] border border-white/15 text-xs font-code"
+                className="w-full px-3.5 py-2 rounded-xl bg-white/[0.06] border border-white/10 text-xs font-mono text-white focus:outline-none focus:border-white/30"
               />
             </div>
 
             {/* Google Search Verification Button */}
-            <div className="pt-2">
+            <div className="pt-1">
               <button
                 type="button"
                 onClick={handleVerifyFlightSearch}
                 disabled={isSearchingLive}
-                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/15 border border-[#43DDB0]/40 text-xs font-code text-[#43DDB0] transition cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-xs text-white apple-press transition cursor-pointer font-medium"
               >
                 {isSearchingLive ? (
                   <>
@@ -473,7 +483,7 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
                   </>
                 ) : (
                   <>
-                    <Search className="w-3.5 h-3.5" />
+                    <Search className="w-3.5 h-3.5 text-[#43DDB0]" />
                     <span>Rechercher les incidents associés à ce vol (Google Search)</span>
                   </>
                 )}
@@ -482,56 +492,57 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
 
             {/* Live Google Search Result Box */}
             {liveSummary && (
-              <div className="p-4 rounded-2xl bg-[#0E1520] border border-[#43DDB0]/40 space-y-2">
+              <div className="p-4 rounded-2xl bg-white/[0.04] border border-[#43DDB0]/30 space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-code text-[#43DDB0] font-medium flex items-center gap-1.5">
+                  <span className="text-[11px] text-[#43DDB0] font-semibold flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5" />
-                    Recherche d'actualité
+                    Recherche d'actualité en direct
                   </span>
                   <span
-                    className={`text-[10px] font-code px-2 py-0.5 rounded ${
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
                       disruptionAssessment === 'extraordinary_circumstance'
-                        ? 'bg-[#E7A63A]/20 text-[#E7A63A] border border-[#E7A63A]/40'
-                        : 'bg-[#43DDB0]/20 text-[#43DDB0] border border-[#43DDB0]/40'
+                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                        : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                     }`}
                   >
                     {disruptionAssessment === 'extraordinary_circumstance'
                       ? 'Circonstance extraordinaire citée'
                       : disruptionAssessment === 'verification_unavailable'
                       ? 'Recherche non disponible'
-                      : 'Analyse d’incidents effectuée'}
+                      : "Analyse d'incidents effectuée"}
                   </span>
                 </div>
-                <p className="font-body text-xs text-white/85 leading-relaxed">
+                <p className="text-xs text-white/85 leading-relaxed">
                   {liveSummary}
                 </p>
-
-                <SearchGroundingBadges sources={groundingSources} />
+                {groundingSources.length > 0 && (
+                  <SearchGroundingBadges sources={groundingSources} />
+                )}
               </div>
             )}
 
             {searchError && (
-              <div className="p-3 rounded-lg bg-red-950/60 border border-red-500/40 text-red-200 text-xs font-body">
+              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-300">
                 {searchError}
               </div>
             )}
 
-            {/* Estimation Summary Box */}
-            <div className="p-4 rounded-2xl bg-[#0E1520] border border-white/10 space-y-2">
+            {/* Result Estimate Card */}
+            <div className="p-4 rounded-2xl bg-white/[0.05] border border-white/10 space-y-2">
               <div className="flex items-baseline justify-between">
-                <span className="text-xs font-code text-white/70">Montant indicatif estimé :</span>
-                <span className="font-display italic text-3xl text-[#43DDB0]">
+                <span className="text-xs text-white/70 font-medium">Indemnité forfaitaire estimée :</span>
+                <span className="text-3xl font-semibold tracking-tight text-[#43DDB0]">
                   {estimation.estimatedAmountEuro} €
                 </span>
               </div>
-              <div className="text-[11px] font-body text-white/80 leading-snug">
+              <div className="text-xs text-white/80 leading-snug">
                 {estimation.qualificationText}
               </div>
-              <div className="text-[11px] font-body text-amber-300/80 leading-snug">
+              <div className="text-[11px] text-amber-300/90 leading-snug">
                 Portée géographique : {estimation.scopeExplanation}
               </div>
-              <div className="text-[10px] font-code text-white/50 pt-1 border-t border-white/10">
-                Fondement : {estimation.legalBasis} · Délai de prescription : {estimation.prescriptionExplanation}
+              <div className="text-[10px] text-white/50 pt-2 border-t border-white/10">
+                Fondement : {estimation.legalBasis} · Prescription : {estimation.prescriptionExplanation}
               </div>
             </div>
           </div>
@@ -539,11 +550,11 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
           {/* Letter Draft Preview */}
           <div className="lg:col-span-6 space-y-4">
             <div className="flex items-center justify-between">
-              <span className="font-code text-xs text-white/80">Courrier de réclamation généré</span>
+              <span className="text-xs text-white/80 font-medium">Courrier de réclamation généré</span>
               <button
                 type="button"
                 onClick={handleCopyLetter}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-xs font-code text-white transition cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-xs text-white apple-press transition cursor-pointer font-medium"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-[#43DDB0]" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copied ? 'Copié !' : 'Copier la lettre'}</span>
@@ -554,7 +565,7 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
               readOnly
               value={letterText}
               rows={12}
-              className="w-full p-3.5 rounded-xl bg-[#0A0F17] border border-white/10 font-mono text-[11px] text-white/80 leading-relaxed focus:outline-none resize-none"
+              className="w-full p-3.5 rounded-xl bg-white/[0.04] border border-white/10 font-mono text-[11px] text-white/80 leading-relaxed focus:outline-none resize-none"
             />
 
             <div className="flex items-center justify-between gap-3">
@@ -563,13 +574,13 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
                   type="button"
                   onClick={handleSaveToFirestore}
                   disabled={isSaving}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#43DDB0] hover:bg-[#38C69D] text-[#101722] text-xs font-code font-semibold transition cursor-pointer"
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black text-xs font-semibold apple-press transition cursor-pointer hover:bg-white/90"
                 >
                   <Save className="w-3.5 h-3.5" />
                   <span>{saveSuccess ? 'Enregistré dans Firestore !' : isSaving ? 'Enregistrement...' : 'Enregistrer sur mon profil'}</span>
                 </button>
               ) : (
-                <div className="text-xs font-body text-white/50">
+                <div className="text-xs text-white/50">
                   Connectez-vous avec Google pour enregistrer vos analyses.
                 </div>
               )}
@@ -580,14 +591,14 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
         {/* User's Persisted Flights in Firestore */}
         {user && savedInspections.length > 0 && (
           <div className="pt-6 border-t border-white/10">
-            <h3 className="font-display text-xl text-[#F6F5F1] mb-3">
+            <h3 className="text-base font-semibold text-white mb-3">
               Vos vols enregistrés dans votre radar personnel (Firestore)
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {savedInspections.map((item) => (
                 <div
                   key={item.id}
-                  className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between text-xs font-code"
+                  className="p-3 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-between text-xs"
                 >
                   <div>
                     <div className="font-semibold text-[#43DDB0]">{item.flightCode}</div>
@@ -598,7 +609,7 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
                     type="button"
                     onClick={() => handleDeleteSaved(item.id)}
                     title="Supprimer cette analyse"
-                    className="p-1.5 hover:text-red-400 text-white/40 transition cursor-pointer"
+                    className="p-1.5 hover:text-red-400 text-white/40 apple-press transition cursor-pointer"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -608,10 +619,10 @@ export function FlightSimulatorModal({ isOpen, onClose, user, initialPreset, ini
           </div>
         )}
 
-        <div className="mt-6 pt-4 border-t border-white/10 text-xs font-body text-white/50 flex items-center gap-2">
+        <div className="mt-6 pt-4 border-t border-white/10 text-xs text-white/50 flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-[#43DDB0] shrink-0" />
           <span>
-            Rights Radar ne transmet aucun courrier à votre place sans votre révision finale. Vous conservez la pleine maîtrise de l'envoi.
+            Rights Radar ne transmet aucun courrier à votre place sans votre validation explicite. Vous conservez la pleine maîtrise de l'envoi.
           </span>
         </div>
       </div>

@@ -32,62 +32,60 @@ export const NeedsSection: React.FC = () => {
   return (
     <section
       id="besoins"
-      className="py-24 bg-[#020408] text-[#F4F4F6] border-t border-white/[0.08] relative overflow-hidden"
+      className="py-28 bg-[#000000] text-[#F5F5F7] border-t border-white/[0.08] relative overflow-hidden"
     >
       {/* Background ambient lighting */}
       <div
         aria-hidden="true"
-        className="absolute top-1/2 right-0 w-[550px] h-[500px] bg-[#00F0FF]/5 blur-[160px] pointer-events-none -z-0"
+        className="absolute top-1/2 right-0 w-[550px] h-[550px] bg-[#64D2FF]/5 blur-[160px] pointer-events-none -z-0"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
+        {/* Section Header with Apple Optical Typography */}
         <div className="max-w-3xl mb-16">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#43DDB0]" />
-            <span className="font-mono text-xs uppercase tracking-widest text-[#43DDB0]">
-              06 — Attentes & Besoins Identifiés
-            </span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.06] border border-white/10 text-xs font-mono font-medium text-[#64D2FF] tracking-wider mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#64D2FF]" />
+            <span>06 — ATTENTES & BESOINS IDENTIFIÉS</span>
           </div>
-          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-white mb-4">
-            Prix transparents, rapidité, <span className="italic text-[#43DDB0]">contrôle et intimité numérique.</span>
+          <h2 className="font-display font-semibold text-3xl sm:text-5xl lg:text-6xl leading-[1.08] tracking-[-0.03em] text-white mb-4">
+            Prix transparents, rapidité, <span className="text-[#64D2FF]">contrôle et intimité numérique.</span>
           </h2>
-          <p className="font-sans text-base sm:text-lg text-[#94A3B8] leading-relaxed font-light">
+          <p className="font-body text-base sm:text-lg text-[#86868B] leading-relaxed max-w-2xl font-normal">
             Les quatre attentes fondamentales exprimées par les voyageurs réguliers pour reprendre le pouvoir face aux compagnies aériennes.
           </p>
         </div>
 
-        {/* 2x2 Grid with Lusion Iridescent Glass Styling */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* 2x2 Apple Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           {needs.map((item, idx) => {
             const Icon = item.icon;
             return (
               <div
                 key={idx}
-                className="glass-panel glass-panel-hover p-8 sm:p-10 rounded-2xl flex flex-col justify-between group"
+                className="apple-card p-8 sm:p-10 rounded-3xl flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <span className="font-mono text-[11px] text-[#43DDB0] tracking-wider uppercase">
+                    <div className="w-12 h-12 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-[#64D2FF] group-hover:scale-105 group-hover:bg-[#64D2FF]/15 transition-all">
+                      <Icon className="w-6 h-6 text-[#64D2FF]" />
+                    </div>
+                    <span className="font-mono text-xs text-white/40 tracking-wider">
                       {item.tag}
                     </span>
-                    <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#43DDB0] group-hover:scale-110 group-hover:bg-[#43DDB0] group-hover:text-black transition-all">
-                      <Icon className="w-5 h-5" />
-                    </div>
                   </div>
 
-                  <h3 className="font-serif text-2xl text-white mb-3 font-normal">
+                  <h3 className="font-display font-semibold text-2xl text-white mb-3 tracking-tight">
                     {item.title}
                   </h3>
 
-                  <p className="font-sans text-sm text-[#94A3B8] leading-relaxed font-light">
+                  <p className="font-body text-base text-[#86868B] leading-relaxed font-normal">
                     {item.desc}
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-white/40">
-                  <span>EXIGENCE RECHERCHE #0{idx + 1}</span>
-                  <ArrowUpRight className="w-4 h-4 text-[#43DDB0]/60 group-hover:text-[#43DDB0] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
+                <div className="mt-8 pt-4 border-t border-white/[0.08] flex items-center justify-between text-xs font-body text-white/40">
+                  <span>Exigence voyageur</span>
+                  <ArrowUpRight className="w-4 h-4 text-[#64D2FF] opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                 </div>
               </div>
             );

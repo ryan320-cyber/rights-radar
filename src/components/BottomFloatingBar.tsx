@@ -27,50 +27,48 @@ export function BottomFloatingBar({ onToggleWorld, isWorldActive }: BottomFloati
       aria-label="Contrôles immersifs de l'expérience"
       className="fixed bottom-6 left-0 right-0 z-50 px-4 pointer-events-none"
     >
-      <div className="max-w-4xl mx-auto flex items-center justify-between pointer-events-auto">
-        {/* Left Audio pill with animated equalizer bars */}
+      <div className="max-w-2xl mx-auto flex items-center justify-between p-2 rounded-full apple-chrome border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.5)] pointer-events-auto">
+        {/* Left Audio Pill with animated equalizer */}
         <button
           type="button"
           onClick={handleToggleAudio}
-          data-cursor="action"
-          className="group cursor-pointer pointer-events-auto flex items-center gap-2.5 px-3.5 py-2 rounded-full bg-[#080C14]/90 hover:bg-[#0E1524] border border-white/15 text-white/80 hover:text-white backdrop-blur-xl shadow-xl transition-all duration-200 active:scale-95"
+          className="apple-press flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-white/80 hover:text-white transition"
           aria-label={isMuted ? "Activer l'ambiance sonore" : "Couper l'ambiance sonore"}
         >
           {isMuted ? (
-            <VolumeX className="w-3.5 h-3.5 text-white/40 group-hover:text-white" />
+            <VolumeX className="w-4 h-4 text-white/40" />
           ) : (
             <div className="flex items-end gap-0.5 h-3.5 w-3.5 pb-0.5">
-              <span className="w-0.5 bg-[#43DDB0] rounded-full eq-1" />
-              <span className="w-0.5 bg-[#43DDB0] rounded-full eq-2" />
-              <span className="w-0.5 bg-[#43DDB0] rounded-full eq-3" />
-              <span className="w-0.5 bg-[#43DDB0] rounded-full eq-4" />
+              <span className="w-0.5 bg-[#30D158] rounded-full eq-1" />
+              <span className="w-0.5 bg-[#30D158] rounded-full eq-2" />
+              <span className="w-0.5 bg-[#30D158] rounded-full eq-3" />
+              <span className="w-0.5 bg-[#30D158] rounded-full eq-4" />
             </div>
           )}
-          <span className="text-[11px] font-code tracking-wider uppercase select-none">
-            {isMuted ? 'Musique: Off' : 'Relaxed City Lo-Fi ♫'}
+          <span className="text-xs font-body tracking-tight font-medium select-none">
+            {isMuted ? 'Audio désactivé' : 'Ambiance Lo-Fi'}
           </span>
         </button>
 
-        {/* Center Prominent World Toggle Button (just like UNSEEN WORLD in the video!) */}
+        {/* Center Prominent 3D Radar Toggle Button */}
         <button
           type="button"
           onClick={() => {
             soundEngine.playClick();
             onToggleWorld();
           }}
-          data-cursor="radar"
-          className="group cursor-pointer pointer-events-auto relative inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-white hover:bg-neutral-200 text-black font-code text-xs font-semibold tracking-wider transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.25)] hover:shadow-[0_0_40px_rgba(67,221,176,0.6)] active:scale-95 select-none"
+          className="apple-press inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white hover:bg-neutral-100 text-black font-body text-xs font-semibold transition active:scale-95 shadow-[0_2px_12px_rgba(255,255,255,0.2)]"
         >
-          <span className="w-2 h-2 rounded-full bg-[#43DDB0] animate-ping" />
+          <span className="w-2 h-2 rounded-full bg-[#30D158] animate-pulse" />
           <span>{isWorldActive ? 'Retour au site' : 'Radar 3D World'}</span>
-          <Globe className="w-3.5 h-3.5 text-black group-hover:rotate-45 transition-transform" />
+          <Globe className="w-3.5 h-3.5 text-black" />
         </button>
 
-        {/* Right Legal / Year metadata */}
-        <div className="hidden sm:flex items-center gap-2 text-[11px] font-code text-white/40 bg-[#080C14]/80 px-3.5 py-2 rounded-full border border-white/10 backdrop-blur-md">
+        {/* Right Status metadata */}
+        <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-white/50 px-3">
           <span>CE 261/2004</span>
           <span>•</span>
-          <span>©2026</span>
+          <span className="text-[#30D158]">Actif</span>
         </div>
       </div>
     </aside>

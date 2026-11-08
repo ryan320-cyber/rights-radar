@@ -1,4 +1,4 @@
-// Real Music & Spatial Audio Engine with HTML5 Audio and Web Audio API
+// Real Music & Spatial Audio Engine with HTML5 Audio, Web Audio API, and Apple-grade Haptics
 
 let musicAudio: HTMLAudioElement | null = null;
 let isAudioMuted = false;
@@ -8,7 +8,9 @@ let fadeInterval: any = null;
 function getAudioContext(): AudioContext | null {
   if (typeof window === 'undefined') return null;
   if (!audioCtx) {
-    const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const AudioContextClass =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     if (AudioContextClass) {
       audioCtx = new AudioContextClass();
     }
@@ -30,6 +32,20 @@ function getMusicElement(): HTMLAudioElement | null {
   return musicAudio;
 }
 
+/**
+ * Apple Design Principle: Multimodal Feedback (Motion + Sound + Haptics in exact harmony)
+ * Triggers a subtle tactile pulse on supported mobile/touch devices.
+ */
+function triggerHaptic(duration = 10) {
+  if (typeof window !== 'undefined' && 'navigator' in window && 'vibrate' in navigator) {
+    try {
+      navigator.vibrate(duration);
+    } catch {
+      // Ignore vibration error on unsupported platforms
+    }
+  }
+}
+
 export const soundEngine = {
   getTrackTitle: () => "Relaxed City — Studio Lo-Fi Dreamscape (256 kbps)",
 
@@ -47,6 +63,7 @@ export const soundEngine = {
   toggleMute: () => {
     const nextMuted = !isAudioMuted;
     soundEngine.setMuted(nextMuted);
+    triggerHaptic(12);
     return nextMuted;
   },
 
@@ -64,7 +81,6 @@ export const soundEngine = {
         if (playPromise !== undefined) {
           playPromise
             .then(() => {
-              // Fade volume in to 0.4
               fadeInterval = setInterval(() => {
                 if (audio.volume < 0.4) {
                   audio.volume = Math.min(0.4, audio.volume + 0.05);
@@ -74,7 +90,7 @@ export const soundEngine = {
               }, 100);
             })
             .catch(() => {
-              // Browser autoplay policy blocked until interaction
+              // Handled silently
             });
         }
       }
@@ -103,6 +119,7 @@ export const soundEngine = {
   },
 
   playPing: () => {
+    triggerHaptic(14);
     if (isAudioMuted) return;
     const ctx = getAudioContext();
     if (!ctx) return;
@@ -128,6 +145,7 @@ export const soundEngine = {
   },
 
   playGlitch: () => {
+    triggerHaptic(16);
     if (isAudioMuted) return;
     const ctx = getAudioContext();
     if (!ctx) return;
@@ -161,6 +179,7 @@ export const soundEngine = {
   },
 
   playTick: () => {
+    triggerHaptic(8);
     if (isAudioMuted) return;
     const ctx = getAudioContext();
     if (!ctx) return;
@@ -184,6 +203,7 @@ export const soundEngine = {
   },
 
   playClick: () => {
+    triggerHaptic(10);
     if (isAudioMuted) return;
     const ctx = getAudioContext();
     if (!ctx) return;

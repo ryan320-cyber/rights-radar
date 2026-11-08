@@ -42,41 +42,27 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
 
   return (
     <div
-      className={`relative rounded-2xl glass-panel border border-white/10 p-4 sm:p-6 overflow-hidden my-12 transition-all duration-500 hover:border-[#43DDB0]/40 group ${className}`}
+      className={`relative rounded-3xl apple-card p-4 sm:p-6 overflow-hidden my-12 transition-all duration-300 group ${className}`}
     >
-      {/* Precision corner crosshairs */}
-      <span className="absolute top-2 left-2 font-mono text-[10px] text-white/30 select-none group-hover:text-[#43DDB0]/70 transition-colors">
-        +
-      </span>
-      <span className="absolute top-2 right-2 font-mono text-[10px] text-white/30 select-none group-hover:text-[#43DDB0]/70 transition-colors">
-        +
-      </span>
-      <span className="absolute bottom-2 left-2 font-mono text-[10px] text-white/30 select-none group-hover:text-[#43DDB0]/70 transition-colors">
-        +
-      </span>
-      <span className="absolute bottom-2 right-2 font-mono text-[10px] text-white/30 select-none group-hover:text-[#43DDB0]/70 transition-colors">
-        +
-      </span>
-
-      {/* Telemetry Header */}
-      <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/5 font-mono text-[11px] text-[#A0AEC0]">
+      {/* Apple Telemetry Header */}
+      <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/5 font-mono text-xs text-[#86868B]">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#43DDB0] animate-pulse shadow-[0_0_8px_#43DDB0]" />
-          <span className="tracking-widest uppercase text-white/80 font-medium">
+          <span className="w-2 h-2 rounded-full bg-[#30D158] animate-pulse shadow-[0_0_8px_#30D158]" />
+          <span className="tracking-widest uppercase text-white/90 font-medium text-[11px]">
             {badge}
           </span>
         </div>
-        <div className="flex items-center gap-3 text-[10px] text-white/50">
-          <span className="hidden sm:inline-flex items-center gap-1">
-            <ShieldCheck className="w-3 h-3 text-[#43DDB0]" />
+        <div className="flex items-center gap-3 text-xs text-white/50">
+          <span className="hidden sm:inline-flex items-center gap-1 font-body text-xs">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#30D158]" />
             AdSense Vérifié
           </span>
-          <span className="tracking-wider">TRANSMISSION FLUIDE</span>
+          <span className="tracking-wider font-mono text-[10px]">TRANSMISSION FLUIDE</span>
         </div>
       </div>
 
       {/* Ad Container with Fluid Transition */}
-      <div className="min-h-[100px] sm:min-h-[140px] flex items-center justify-center relative rounded-xl overflow-hidden bg-black/40 border border-white/5">
+      <div className="min-h-[100px] sm:min-h-[140px] flex items-center justify-center relative rounded-2xl overflow-hidden bg-black/40 border border-white/5">
         <ins
           ref={adRef}
           className="adsbygoogle block w-full transition-opacity duration-700"
@@ -89,12 +75,12 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
 
         {/* Ambient fallback / placeholder during dev, ad-loading, or adblock */}
         {(!adLoaded || hasError) && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center pointer-events-none bg-gradient-to-r from-transparent via-[#43DDB0]/5 to-transparent animate-pulse">
-            <div className="flex items-center gap-2 text-xs font-mono text-[#43DDB0] mb-1">
+          <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center pointer-events-none bg-gradient-to-r from-transparent via-[#30D158]/5 to-transparent">
+            <div className="flex items-center gap-2 text-xs font-mono text-[#30D158] mb-1 font-semibold">
               <Sparkles className="w-3.5 h-3.5" />
               <span>ESPACE ANNONCES AD-SENSE FLUIDE (ID: pub-6292650422847467)</span>
             </div>
-            <p className="text-[11px] font-sans text-white/60 max-w-lg">
+            <p className="text-xs font-body text-white/60 max-w-lg">
               Intégration native Google AdSense optimisée pour l’affichage sans rupture de contraste ni décalage de mise en page (CLS &lt; 0.01).
             </p>
           </div>
@@ -102,7 +88,7 @@ export const AdSenseBanner: React.FC<AdSenseBannerProps> = ({
       </div>
 
       {/* Bottom Sub-tag */}
-      <div className="mt-2.5 flex items-center justify-between font-mono text-[9px] text-white/40">
+      <div className="mt-2.5 flex items-center justify-between font-mono text-[10px] text-white/40">
         <span>RADAR SPONSOR // LOCAL ENCRYPTED VIEW</span>
         <span>GOOGLE AD SYSTEM</span>
       </div>

@@ -119,45 +119,44 @@ export function HeroSection({ onOpenSimulator, onOpenGmailScanner }: HeroSection
         className="absolute bottom-10 right-10 w-[550px] h-[400px] bg-gradient-to-br from-[#FFB340]/8 via-transparent to-transparent blur-[130px] pointer-events-none z-0"
       />
 
-      {/* Top Editorial Telemetry Bar (Unseen Studio Signature) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 mb-8 border-b border-white/[0.07] pb-4 flex flex-wrap items-center justify-between text-[11px] font-code text-white/40 tracking-wider">
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1.5 text-[#43DDB0]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#43DDB0] animate-ping" />
-            <span className="font-semibold">RADAR ONLINE // 1090 MHz</span>
+      {/* Top Editorial Telemetry Bar (Apple System Status) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 mb-8 border-b border-white/[0.07] pb-4 flex flex-wrap items-center justify-between text-xs font-mono text-white/50 tracking-wide">
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-2 text-[#30D158] font-medium">
+            <span className="w-2 h-2 rounded-full bg-[#30D158] animate-pulse shadow-[0_0_8px_#30D158]" />
+            <span>RADAR ACTIF // 1090 MHz</span>
           </span>
           <span className="hidden sm:inline text-white/20">|</span>
-          <span className="hidden sm:inline">LAT 48°51&apos;24&quot; N · LON 002°21&apos;07&quot; E</span>
+          <span className="hidden sm:inline text-white/40">Paris CDG · 48°51′24″ N, 002°21′07″ E</span>
         </div>
-        <div className="flex items-center gap-4">
-          <span>EUR-LEX CE 261/2004</span>
+        <div className="flex items-center gap-3">
+          <span className="text-white/60">CE 261/2004</span>
           <span className="hidden md:inline text-white/20">|</span>
-          <span className="hidden md:inline text-[#43DDB0]/80">LOCAL-FIRST PRIVACY SHIELD</span>
+          <span className="hidden md:inline text-[#30D158]">Protection 100% Locale</span>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Column: Kinetic Editorial Headline & Controls */}
+          {/* Left Column: Kinetic Apple Display Headline & Controls */}
           <div className="lg:col-span-6 flex flex-col justify-center">
-            {/* Fine Calibration Tag */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-code text-[#43DDB0] tracking-widest mb-6 w-fit shadow-[0_0_15px_rgba(67,221,176,0.1)]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#43DDB0] shadow-[0_0_8px_#43DDB0]" />
-              <span>DÉTECTION · ESTIMATION · SOULAGEMENT LOCAL</span>
+            {/* Fine Calibration Eyebrow */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.06] border border-white/10 text-xs font-mono font-medium text-[#30D158] tracking-wider mb-6 w-fit">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#30D158]" />
+              <span>DÉTECTION · ESTIMATION · PRÉPARATION LOCALE</span>
             </div>
 
-            {/* Exactly one H1 for the page with Masked Reveal */}
+            {/* Exactly one H1 for the page with Spring Reveal */}
             <div className="overflow-hidden mb-6">
               <motion.h1
-                initial={{ y: '100%', opacity: 0 }}
-                animate={{ y: '0%', opacity: 1 }}
-                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[0.93] tracking-tight text-white font-normal"
+                initial={{ y: 24, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ type: 'spring', damping: 26, stiffness: 220, mass: 0.9 }}
+                className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[0.96] tracking-[-0.035em] text-white font-semibold font-display"
               >
-                <span className="font-display block">Le radar de vos</span>
-                <span className="font-display italic text-[#43DDB0] block relative">
+                <span className="block">Le radar de vos</span>
+                <span className="text-[#30D158] block relative">
                   droits en voyage.
-                  <span className="absolute -bottom-1 left-0 w-32 h-[1px] bg-gradient-to-r from-[#43DDB0] to-transparent opacity-60" />
                 </span>
               </motion.h1>
             </div>
@@ -166,18 +165,18 @@ export function HeroSection({ onOpenSimulator, onOpenGmailScanner }: HeroSection
             <motion.p
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
-              className="font-body text-lg sm:text-xl text-[#94A3B8] leading-relaxed mb-8 max-w-xl font-light"
+              transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
+              className="font-body text-lg sm:text-xl text-[#86868B] leading-relaxed mb-8 max-w-xl font-normal tracking-[-0.011em]"
             >
-              Il repère les vols qui ouvrent un droit à indemnisation (250 €, 400 €, 600 €), estime le montant exact selon la distance et prépare votre réclamation. Vos données privées ne quittent jamais votre ordinateur.
+              Il repère les vols ouvrant droit à une indemnisation forfaitaire (250 €, 400 €, 600 €), calcule le montant selon la distance orthodromique et prépare votre réclamation formelle. Vos données ne quittent jamais votre appareil.
             </motion.p>
 
             {/* Action Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.35, ease: 'easeOut' }}
-              className="flex flex-wrap items-center gap-4 mb-10"
+              transition={{ duration: 0.6, delay: 0.25, ease: 'easeOut' }}
+              className="flex flex-wrap items-center gap-3.5 mb-10"
             >
               <a
                 href="#inscription"
@@ -186,11 +185,10 @@ export function HeroSection({ onOpenSimulator, onOpenGmailScanner }: HeroSection
                   soundEngine.playClick();
                   document.getElementById('inscription')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
-                data-cursor="action"
-                className="group cursor-pointer inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-white hover:bg-neutral-100 text-black font-code text-xs uppercase tracking-wider font-semibold transition-all duration-300 shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:shadow-[0_0_35px_rgba(67,221,176,0.4)] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-[#43DDB0]"
+                className="apple-press inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-white hover:bg-neutral-100 text-black font-body text-sm font-semibold transition active:scale-[0.97] shadow-[0_4px_24px_rgba(255,255,255,0.2)]"
               >
                 <span>Rejoindre la liste d’attente</span>
-                <ArrowDownRight className="w-4 h-4 text-black group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" />
+                <ArrowDownRight className="w-4 h-4 text-black" />
               </a>
 
               <button
@@ -199,10 +197,9 @@ export function HeroSection({ onOpenSimulator, onOpenGmailScanner }: HeroSection
                   soundEngine.playClick();
                   onOpenSimulator();
                 }}
-                data-cursor="action"
-                className="group cursor-pointer inline-flex items-center gap-2 px-6 py-4 rounded-full border border-white/20 hover:border-[#FFB340]/60 bg-white/[0.03] hover:bg-[#FFB340]/10 text-white font-code text-xs uppercase tracking-wider transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#FFB340] active:scale-95"
+                className="apple-press inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-white/20 bg-white/[0.06] hover:bg-white/[0.12] text-white font-body text-sm font-medium transition active:scale-[0.97]"
               >
-                <Sparkles className="w-3.5 h-3.5 text-[#FFB340] group-hover:rotate-12 transition-transform" />
+                <Sparkles className="w-4 h-4 text-[#FF9F0A]" />
                 <span>Simulateur de vol</span>
               </button>
 
@@ -213,28 +210,27 @@ export function HeroSection({ onOpenSimulator, onOpenGmailScanner }: HeroSection
                     soundEngine.playClick();
                     onOpenGmailScanner();
                   }}
-                  data-cursor="action"
-                  className="group cursor-pointer inline-flex items-center gap-2 px-6 py-4 rounded-full border border-[#43DDB0]/30 hover:border-[#43DDB0] bg-[#43DDB0]/05 hover:bg-[#43DDB0]/15 text-[#43DDB0] font-code text-xs uppercase tracking-wider transition-all duration-300 shadow-[0_0_20px_rgba(67,221,176,0.15)] focus:outline-none focus:ring-2 focus:ring-[#43DDB0] active:scale-95"
+                  className="apple-press inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[#30D158]/30 hover:border-[#30D158] bg-[#30D158]/10 hover:bg-[#30D158]/20 text-[#30D158] font-body text-sm font-medium transition active:scale-[0.97]"
                 >
-                  <Mail className="w-3.5 h-3.5 text-[#43DDB0]" />
+                  <Mail className="w-4 h-4 text-[#30D158]" />
                   <span>Scanner Gmail</span>
                 </button>
               )}
             </motion.div>
 
-            {/* Micro Feature Grid with Unseen Hairlines */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-white/[0.08] text-xs font-code text-[#94A3B8]">
-              <div className="flex flex-col gap-1">
-                <span className="text-[#43DDB0] font-bold text-base">0 Octet</span>
-                <span className="text-white/60 text-[11px]">Exporté vers un tiers</span>
+            {/* Micro Feature Grid: Apple Bento Capsules */}
+            <div className="grid grid-cols-3 gap-3.5 pt-6 border-t border-white/[0.08]">
+              <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex flex-col gap-1">
+                <span className="text-[#30D158] font-semibold text-lg font-display">0 Octet</span>
+                <span className="text-white/60 text-xs font-body">Transmis à des tiers</span>
               </div>
-              <div className="flex flex-col gap-1 border-l border-white/[0.08] pl-4">
-                <span className="text-white font-bold text-base">250 € à 600 €</span>
-                <span className="text-white/60 text-[11px]">Barème européen CE 261</span>
+              <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex flex-col gap-1">
+                <span className="text-white font-semibold text-lg font-display">250 € à 600 €</span>
+                <span className="text-white/60 text-xs font-body">Barème légal CE 261</span>
               </div>
-              <div className="flex flex-col gap-1 border-l border-white/[0.08] pl-4">
-                <span className="text-[#FFB340] font-bold text-base">9 € à 14 €</span>
-                <span className="text-white/60 text-[11px]">Forfait fixe envisagé</span>
+              <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/[0.06] flex flex-col gap-1">
+                <span className="text-[#FF9F0A] font-semibold text-lg font-display">9 € à 14 €</span>
+                <span className="text-white/60 text-xs font-body">Forfait fixe envisagé</span>
               </div>
             </div>
           </div>

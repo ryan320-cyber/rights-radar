@@ -34,10 +34,10 @@ import { motion } from 'motion/react';
 function ScrollSection({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 36 }}
+      initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12, margin: '0px 0px -50px 0px' }}
-      transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, amount: 0.1, margin: '0px 0px -40px 0px' }}
+      transition={{ type: 'spring', damping: 28, stiffness: 240, mass: 0.9 }}
       className={className}
     >
       {children}
@@ -103,7 +103,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#03070D] text-[#F4F4F6] font-body selection:bg-[#43DDB0]/30 selection:text-white flex flex-col relative pb-20">
+    <div className="min-h-screen bg-black text-[#F5F5F7] font-body selection:bg-[#30D158]/30 selection:text-white flex flex-col relative pb-24">
       {/* Desktop Art-directed Custom Reticle Cursor */}
       <CustomCursor />
 

@@ -18,44 +18,42 @@ export const ComparisonSection: React.FC = () => {
   return (
     <section
       id="comparaison"
-      className="py-24 bg-[#03070E] text-[#F4F4F6] border-t border-white/[0.08] relative overflow-hidden"
+      className="py-28 bg-[#000000] text-[#F5F5F7] border-t border-white/[0.08] relative overflow-hidden"
     >
       {/* Background ambient lighting */}
       <div
         aria-hidden="true"
-        className="absolute top-1/2 left-1/3 w-[600px] h-[500px] bg-[#FFB340]/5 blur-[160px] pointer-events-none -z-0"
+        className="absolute top-1/2 left-1/3 w-[600px] h-[550px] bg-[#FF9F0A]/5 blur-[160px] pointer-events-none -z-0"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
+        {/* Section Header with Apple Optical Typography */}
         <div className="max-w-3xl mb-16">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#43DDB0]" />
-            <span className="font-mono text-xs uppercase tracking-widest text-[#43DDB0]">
-              05 — Modèle Économique Comparé
-            </span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.06] border border-white/10 text-xs font-mono font-medium text-[#30D158] tracking-wider mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#30D158]" />
+            <span>05 — MODÈLE ÉCONOMIQUE COMPARÉ</span>
           </div>
-          <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-white mb-4">
-            D&apos;autres services existent. <span className="italic text-[#43DDB0]">Comparez le modèle à commission et le prix fixe.</span>
+          <h2 className="font-display font-semibold text-3xl sm:text-5xl lg:text-6xl leading-[1.08] tracking-[-0.03em] text-white mb-4">
+            D'autres services existent. <span className="text-[#30D158]">Comparez le modèle à commission et le prix fixe.</span>
           </h2>
-          <p className="font-sans text-base sm:text-lg text-[#94A3B8] leading-relaxed font-light">
-            Les agences commerciales facturent généralement de 35 % à 50 % de votre indemnité. Nous testons une approche alternative à forfait fixe abordable.
+          <p className="font-body text-base sm:text-lg text-[#86868B] leading-relaxed max-w-2xl font-normal">
+            Les agences commerciales prélèvent généralement de 35 % à 50 % de votre indemnité. Nous testons une approche alternative à forfait fixe abordable.
           </p>
         </div>
 
-        {/* Comparison Interactive Glass Panel */}
-        <div className="glass-panel p-6 sm:p-10 rounded-2xl border border-white/10 space-y-8 shadow-[0_0_50px_rgba(0,0,0,0.6)]">
-          {/* Top Interactive Amount Selector */}
+        {/* Comparison Interactive Apple Bento Panel */}
+        <div className="apple-card p-6 sm:p-10 rounded-3xl space-y-8">
+          {/* Top Interactive Amount Selector: Apple Segmented Control */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-6">
             <div className="flex items-center gap-2.5">
-              <BarChart2 className="w-5 h-5 text-[#43DDB0]" />
-              <span className="font-mono text-sm uppercase text-white tracking-wider">
+              <BarChart2 className="w-5 h-5 text-[#30D158]" />
+              <span className="font-body text-sm font-semibold uppercase text-white tracking-wider">
                 Simulation comparative dynamique
               </span>
             </div>
 
-            <div className="flex items-center gap-2 bg-white/[0.04] p-1.5 rounded-full border border-white/10">
-              <span className="text-xs font-mono text-white/50 px-2">Échelon légal :</span>
+            <div className="apple-segmented-control">
+              <span className="text-xs font-body text-white/50 px-2">Échelon :</span>
               {[250, 400, 600].map((amt) => (
                 <button
                   key={amt}
@@ -64,9 +62,9 @@ export const ComparisonSection: React.FC = () => {
                     soundEngine.playClick();
                     setIndemnityAmount(amt);
                   }}
-                  className={`px-3 py-1 rounded-full text-xs font-mono font-bold transition-all ${
+                  className={`apple-press apple-segmented-item ${
                     indemnityAmount === amt
-                      ? 'bg-[#43DDB0] text-black shadow-[0_0_12px_rgba(67,221,176,0.5)]'
+                      ? 'apple-segmented-item-active'
                       : 'text-white/70 hover:text-white'
                   }`}
                 >
@@ -78,67 +76,84 @@ export const ComparisonSection: React.FC = () => {
 
           {/* Option A: Commission Service (e.g. AirHelp 35%) */}
           <div className="space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-sm font-mono gap-1">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-sm font-body gap-1">
               <span className="font-medium text-white flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#FFB340]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FF9F0A]" />
                 <span>Intermédiaire classique à la commission (35 %)</span>
-                <span className="text-[11px] text-white/40 font-normal">[partie intéressée : AirHelp]</span>
+                <span className="text-xs text-white/50 font-normal">[partie intéressée : AirHelp]</span>
               </span>
-              <span className="text-[#FFB340] font-bold">
+              <span className="text-[#FF9F0A] font-bold font-mono">
                 {commissionFee} € prélevés <span className="text-white/60 font-normal">(Reste {remainingPassengerAirHelp} € pour vous)</span>
               </span>
             </div>
 
-            <div className="w-full h-10 bg-white/[0.04] rounded-xl overflow-hidden flex border border-white/10">
+            <div className="w-full h-11 bg-white/[0.04] rounded-2xl overflow-hidden flex border border-white/10 p-1 gap-1">
               <div
                 style={{ width: `${100 - commissionRate * 100}%` }}
-                className="bg-[#43DDB0]/30 h-full flex items-center justify-center text-xs font-mono font-bold text-white transition-all duration-500"
+                className="bg-white/[0.12] h-full rounded-xl flex items-center justify-center text-xs font-body font-semibold text-white transition-all duration-500"
               >
-                {remainingPassengerAirHelp} € à l'usager (65 %)
+                {remainingPassengerAirHelp} € conservés (65 %)
               </div>
               <div
                 style={{ width: `${commissionRate * 100}%` }}
-                className="bg-[#FFB340] h-full flex items-center justify-center text-xs font-mono font-bold text-black transition-all duration-500"
+                className="bg-[#FF9F0A]/30 border border-[#FF9F0A]/40 text-[#FF9F0A] h-full rounded-xl flex items-center justify-center text-xs font-mono font-bold transition-all duration-500"
               >
-                {commissionFee} € commission
+                -{commissionFee} € (35%)
               </div>
             </div>
           </div>
 
-          {/* Option B: Rights Radar Fixed Fee Hypothesis (9-14 €) */}
+          {/* Option B: Rights Radar Fixed Fee Model */}
           <div className="space-y-3">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-sm font-mono gap-1">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-sm font-body gap-1">
               <span className="font-medium text-white flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#43DDB0]" />
-                <span>Rights Radar (Modèle forfaitaire transparent)</span>
-                <span className="text-[11px] text-[#43DDB0]/80 font-normal">[hypothèse à tester]</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-[#30D158]" />
+                <span>Rights Radar : Forfait fixe transparent (9 € à 14 €)</span>
+                <span className="text-xs text-[#30D158] font-normal">[hypothèse à tester]</span>
               </span>
-              <span className="text-[#43DDB0] font-bold">
-                {rightsRadarFlatFeeMin} à {rightsRadarFlatFeeMax} € forfait <span className="text-white/60 font-normal">(~{remainingPassengerRadar} € conservés)</span>
+              <span className="text-[#30D158] font-bold font-mono">
+                {remainingPassengerRadar} € conservés ({percentageKeptRadar} %)
               </span>
             </div>
 
-            <div className="w-full h-10 bg-white/[0.04] rounded-xl overflow-hidden flex border border-white/10">
+            <div className="w-full h-11 bg-white/[0.04] rounded-2xl overflow-hidden flex border border-white/10 p-1 gap-1">
               <div
-                style={{ width: `${percentageKeptRadar}%` }}
-                className="bg-[#43DDB0] h-full flex items-center px-4 text-xs font-mono font-bold text-black transition-all duration-500 shadow-[0_0_20px_rgba(67,221,176,0.3)]"
+                style={{ width: `${(remainingPassengerRadar / indemnityAmount) * 100}%` }}
+                className="bg-[#30D158]/25 border border-[#30D158]/40 h-full rounded-xl flex items-center justify-center text-xs font-body font-bold text-white transition-all duration-500"
               >
-                ~{remainingPassengerRadar} € conservés par vous ({percentageKeptRadar} %)
+                {remainingPassengerRadar} € conservés ({percentageKeptRadar} %)
               </div>
               <div
-                style={{ width: `${100 - percentageKeptRadar}%` }}
-                className="bg-white/20 h-full"
-                title="Forfait 9-14 €"
-              />
+                style={{ width: `${(rightsRadarFlatFeeMax / indemnityAmount) * 100}%` }}
+                className="bg-white/20 h-full rounded-xl flex items-center justify-center text-[11px] font-mono font-bold text-white transition-all duration-500 min-w-[50px]"
+              >
+                14 €
+              </div>
             </div>
           </div>
 
-          {/* Sourced Disclaimer Box */}
-          <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] flex items-start gap-3 text-xs font-mono text-[#94A3B8]">
-            <Info className="w-4 h-4 text-[#43DDB0] shrink-0 mt-0.5" />
-            <p className="leading-relaxed font-light">
-              <strong className="text-white font-medium">Exemple de calcul, pas un résultat :</strong> Ce graphique est fourni à titre indicatif pour comparer le coût réel d'un intermédiaire à la commission (environ 35 % à 50 % selon les étapes) avec notre hypothèse de forfait fixe indépendant de 9 à 14 €.
-            </p>
+          {/* Summary Callout Banner */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-body">
+            <div className="text-white/70 leading-relaxed">
+              <strong className="text-white">Différence nette pour vous :</strong> Sur une indemnité de {indemnityAmount} €, vous conservez environ{' '}
+              <strong className="text-[#30D158] font-bold font-mono">
+                +{commissionFee - rightsRadarFlatFeeMax} € de plus
+              </strong>{' '}
+              qu&apos;avec une commission standard de 35 %.
+            </div>
+
+            <a
+              href="#inscription"
+              onClick={(e) => {
+                e.preventDefault();
+                soundEngine.playClick();
+                document.getElementById('inscription')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              className="apple-press inline-flex items-center gap-1.5 text-[#30D158] hover:text-[#34C759] font-semibold shrink-0"
+            >
+              <span>Valider ce modèle</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
           </div>
         </div>
       </div>

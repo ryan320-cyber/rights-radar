@@ -1,50 +1,60 @@
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Instrument Serif", Georgia, serif;
-  --font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-serif: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro", "Helvetica Neue", sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", system-ui, -apple-system, sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
 
-  --color-canvas: #020408;
-  --color-mist: #070B12;
+  --color-canvas: #000000;
+  --color-mist: #0A0E17;
   --color-ink: #FFFFFF;
-  --color-body: #94A3B8;
-  --color-light: #F4F4F6;
-  --color-radar-mint: #43DDB0;
-  --color-alert-amber: #FFB340;
-  --color-cyan: #00F0FF;
+  --color-body: #86868B;
+  --color-light: #F5F5F7;
+  --color-radar-mint: #30D158;
+  --color-alert-amber: #FF9F0A;
+  --color-cyan: #64D2FF;
+  --color-blue: #0A84FF;
 }
 
 :root {
-  --canvas: #020408;
-  --mist: #070B12;
+  --canvas: #000000;
+  --mist: #0A0E17;
   --ink: #FFFFFF;
-  --body-text: #94A3B8;
-  --light-text: #F4F4F6;
-  --radar-mint: #43DDB0;
-  --alert-amber: #FFB340;
-  --cyan: #00F0FF;
+  --body-text: #86868B;
+  --light-text: #F5F5F7;
+  --radar-mint: #30D158;
+  --alert-amber: #FF9F0A;
+  --cyan: #64D2FF;
+  --blue: #0A84FF;
   --mouse-x: 50vw;
   --mouse-y: 50vh;
+
+  /* Apple System Typography Sizing & Tracking */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Base resets & smooth scrolling */
 html {
-  background-color: #020408;
-  color: #F4F4F6;
+  background-color: #000000;
+  color: #F5F5F7;
   scroll-behavior: smooth;
   color-scheme: dark;
 }
 
 body {
-  background-color: #020408;
-  color: #94A3B8;
+  background-color: #000000;
+  color: #86868B;
   overflow-x: hidden;
   position: relative;
-  font-family: var(--font-sans);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  letter-spacing: -0.011em;
+  line-height: 1.55;
 }
 
-/* Lusion Interactive Dynamic Mouse Spotlight Overlay */
+/* Apple Subtle Ambient Depth Light */
 body::before {
   content: "";
   position: fixed;
@@ -52,79 +62,128 @@ body::before {
   pointer-events: none;
   z-index: 1;
   background: radial-gradient(
-    800px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh),
-    rgba(67, 221, 176, 0.05),
-    rgba(0, 240, 255, 0.02) 40%,
+    1000px circle at var(--mouse-x, 50vw) var(--mouse-y, 50vh),
+    rgba(48, 209, 88, 0.04),
+    rgba(100, 210, 255, 0.02) 40%,
     transparent 80%
   );
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 
-/* Film grain texture overlay */
-.film-grain {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-}
-
-/* Custom typography utilities */
+/* Apple Typography Utility Classes (Section 15) */
 .font-display {
-  font-family: var(--font-serif);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, sans-serif;
+  letter-spacing: -0.028em;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
 .font-body {
-  font-family: var(--font-sans);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  letter-spacing: -0.011em;
 }
 
 .font-code {
-  font-family: var(--font-mono);
+  font-family: "SF Mono", "JetBrains Mono", Menlo, Monaco, monospace;
 }
 
-/* Lusion & Unseen Glassmorphism with Iridescent Border */
-.glass-panel {
-  background: rgba(8, 14, 24, 0.65);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+/* Apple Materials & Translucency Hierarchy (Section 12) */
+/* Floating Chrome: Ultra-thin vibrant glass */
+.apple-chrome {
+  background: rgba(14, 18, 26, 0.76);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Apple Bento Cards / Surface Layer */
+.glass-panel, .apple-card {
+  background: rgba(18, 24, 38, 0.6);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14), /* bright top edge = light catching material */
+    0 20px 45px rgba(0, 0, 0, 0.45);
+  border-radius: 24px;
   position: relative;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.25s cubic-bezier(0.2, 0, 0, 1);
 }
 
-.glass-panel-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-panel-hover:hover {
-  border-color: rgba(67, 221, 176, 0.35);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(67, 221, 176, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+.glass-panel-hover:hover, .apple-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 25px 60px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(48, 209, 88, 0.08);
   transform: translateY(-2px);
 }
 
-/* Technical Corner Crosshairs (+) for Unseen Studio Editorial Grid */
-.corner-crosshairs {
-  position: relative;
+/* Apple Direct Manipulation & Tactile Press Response (Section 1, 10) */
+/* Immediate tactile scale-down on pointer-down / active press */
+button, [role="button"], .apple-press {
+  transition: transform 120ms cubic-bezier(0.2, 0, 0, 1), opacity 120ms ease, background-color 150ms ease;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.corner-crosshairs::before {
-  content: "+";
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  font-family: var(--font-mono);
-  font-size: 14px;
-  line-height: 1;
-  color: rgba(67, 221, 176, 0.6);
-  pointer-events: none;
+button:active, [role="button"]:active, .apple-press:active {
+  transform: scale(0.97);
 }
 
-.corner-crosshairs::after {
-  content: "+";
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  font-family: var(--font-mono);
-  font-size: 14px;
-  line-height: 1;
-  color: rgba(67, 221, 176, 0.6);
-  pointer-events: none;
+/* Apple Segmented Control (Pill Switcher) */
+.apple-segmented-control {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 3px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.apple-segmented-item {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.apple-segmented-item-active {
+  background: #FFFFFF;
+  color: #000000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  font-weight: 600;
+}
+
+/* Apple Sheet Modal Grab Handle */
+.apple-sheet-handle {
+  width: 36px;
+  height: 5px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.24);
+  margin: 0 auto 16px auto;
+}
+
+/* Apple Inset Form Cell */
+.apple-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  color: #FFFFFF;
+  padding: 12px 16px;
+  font-size: 15px;
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.apple-input:focus {
+  outline: none;
+  border-color: #30D158;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(48, 209, 88, 0.2);
 }
 
 /* Review flag highlight when ?review=1 is enabled */
@@ -132,15 +191,15 @@ body::before {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.125rem 0.375rem;
-  background-color: rgba(255, 179, 64, 0.15);
-  border: 1px solid rgba(255, 179, 64, 0.5);
-  color: #FFB340;
+  padding: 0.15rem 0.5rem;
+  background-color: rgba(255, 159, 10, 0.15);
+  border: 1px solid rgba(255, 159, 10, 0.45);
+  color: #FF9F0A;
   font-size: 0.6875rem;
   font-family: var(--font-mono);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 2px;
+  letter-spacing: 0.06em;
+  border-radius: 6px;
   vertical-align: middle;
 }
 
@@ -155,39 +214,27 @@ body::before {
 .eq-3 { animation: eq-bounce-3 0.8s ease-in-out infinite; }
 .eq-4 { animation: eq-bounce-4 0.6s ease-in-out infinite; }
 
-/* Subtle phosphor scanline for departures terminal */
-.scanlines {
-  background: linear-gradient(
-    to bottom,
-    rgba(255,255,255,0),
-    rgba(255,255,255,0) 50%,
-    rgba(0, 0, 0, 0.3) 50%,
-    rgba(0, 0, 0, 0.3)
-  );
-  background-size: 100% 4px;
-}
-
-/* Shimmer animation */
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-.animate-shimmer {
-  animation: shimmer 2.5s infinite;
-}
-
-/* Custom Scrollbar */
+/* Custom Sleek Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #020408;
+  background: #000000;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(67, 221, 176, 0.5);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Reduced motion accessibility support (Section 15, 16) */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
